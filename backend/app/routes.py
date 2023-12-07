@@ -7,3 +7,4 @@ def valorant_api():
     header = {}
 
 app = Flask(__name__)
+ 
