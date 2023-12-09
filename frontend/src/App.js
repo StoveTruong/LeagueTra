@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState, useEffect } from 'react'
+//Cant use useState in conditions, loops, etc.
 function App() {
+  //Typical rule of thumb is to use the useState on the top to set variables
+  const [data, setData] = useState([{}])
+  useEffect(() => {
+    fetch("/homepage").then(
+      res => res.json()
+    ).then(
+      data => {
+        setData(data)
+        console.log(data)
+      }
+    )
+  }, [])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div>
+        {(typeof data.testing1 === 'undefined') ? (
+          <p>Loading...</p>
+        ) : (
+          data.testing1.map((testing, i) =>(
+            <p key={i}>{testing}</p>
+          ))
+        )}
+
+      </div>
+    )
 }
 
-export default App;
+export default App
