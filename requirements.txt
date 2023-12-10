@@ -1,0 +1,4 @@
+Flask
+React.js
+requests
+venv

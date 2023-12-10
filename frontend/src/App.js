@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 //Cant use useState in conditions, loops, etc.
 function App() {
   //Typical rule of thumb is to use the useState on the top to set variables
+  //Fetching data from backend and logging it.
   const [data, setData] = useState([{}])
   useEffect(() => {
     fetch("/homepage").then(
@@ -13,6 +14,10 @@ function App() {
       }
     )
   }, [])
+  
+
+
+
   
   return (
       <div>
