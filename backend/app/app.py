@@ -5,7 +5,7 @@ from functions import errors
 app = Flask(__name__)
 
     
-    
+#Testing
 @app.route("/homepage")
 def homepage():
     
@@ -21,16 +21,11 @@ def search():
         """
         Get summoner profile
         """
-        #Test for all possible cases:
-        #
-        if not request.form.get("username"):
-            return errors("must provide username", 403)
-        else:
-            if not request.form.get("tagline"):
-                return placeholderremoveplease()
-                #If summonername exist:
-                    #return profile
-                
+        
+        username = request.form.get("username")
+        tagline = request.form.get("tagline")
+        
+        
                 
         #Getting session need to finish all the test cases:
         #session["userprofile"] == request.get["username"] + '' + ["tagline"]
