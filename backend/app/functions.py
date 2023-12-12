@@ -20,15 +20,3 @@ def username_required(f):
             return redirect ("/lookup")
         return f(*args, **kwargs)
     return decorated_function
-
-
-
-def league_api():
-    
-    
-    
-    api_key = API_KEY
-    header = {}
-    url = '/lol/league/v4/entries/by-summoner/{e_username}'
-    
-    if 

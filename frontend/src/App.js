@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import SearchPageComponent from './search-page/search-page'
 //Cant use useState in conditions, loops, etc.
 function App() {
   //Typical rule of thumb is to use the useState on the top to set variables
@@ -24,9 +25,10 @@ function App() {
         {(typeof data.testing1 === 'undefined') ? (
           <p>Loading...</p>
         ) : (
-          data.testing1.map((testing, i) =>(
-            <p key={i}>{testing}</p>
-          ))
+          <SearchPageComponent></SearchPageComponent>
+          // data.testing1.map((testing, i) =>(
+          //   <p key={i}>{testing}</p>
+          // ))
         )}
 
       </div>
