@@ -4,9 +4,17 @@ from flask import redirect, render_template, session
 from functools import wraps
 
 def errors(message, code=400):
-    """
-    "Render error messages to users"
-    """
+    def escape(s):
+        """
+        Render error messages to users
+        """
+        
+        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+                        ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+            s = s.replace(old, new)
+        return s
+    return render_template("apology.html", top=code, bottom=escape(message)), code
+
 
 def username_required(f):
     """
@@ -31,4 +39,8 @@ def league_api():
     header = {}
     url = '/lol/league/v4/entries/by-summoner/{e_username}'
     
-    if 
+    
+    
+    
+    
+    
