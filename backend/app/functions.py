@@ -1,7 +1,22 @@
 import requests
 
-from flask import redirect, render_template, session
+
+from flask import request, redirect, render_template, session
 from functools import wraps
+from config import API_KEY
+
+
+#Base url
+base_urls = {
+    "na" : "https://na1.api.riotgames.com/lol",
+    "euw" :"https://euw1.api.riotgames.com/lol",
+    "eun" : "https://eun1.api.riotgames.com/lol",
+    "oc" : "https://oc.api.riotgames.com/lol",
+    "kr" : "https://kr.api.riotgames.com/lol",
+    "jp" : "https://jp1.api.riotgames.com/lol",
+}
+
+    
 
 def errors(message, code=400):
     def escape(s):
@@ -15,6 +30,12 @@ def errors(message, code=400):
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
+def get_region_url(region):
+    if region in base_urls:
+        return base_urls[region]
+    else:
+        return None
+    
 
 def username_required(f):
     """
@@ -31,12 +52,14 @@ def username_required(f):
 
 
 
-def league_api():
+def summoner_call():
     
     
     
     api_key = API_KEY
-    header = {}
+    header = {"X-Riot-Token" : API_KEY}
+    
+    
     url = '/lol/league/v4/entries/by-summoner/{e_username}'
     
     response = (url, header)
