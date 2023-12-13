@@ -4,9 +4,10 @@
 node_modules
 /.pnp
 .pnp.js
-backend/config.py
+backend/app/config.py
 valotracvenv/Lib/site-packages
 venv
+__pycache__
 
 # testing
 /coverage

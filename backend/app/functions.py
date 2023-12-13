@@ -39,6 +39,11 @@ def league_api():
     header = {}
     url = '/lol/league/v4/entries/by-summoner/{e_username}'
     
+    response = (url, header)
+    data = response.json
+    
+    
+    
     
     
     

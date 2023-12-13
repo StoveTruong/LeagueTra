@@ -26,6 +26,8 @@ def search():
         tagline = request.form.get("tagline")
         
         
+        
+        
                 
         #Getting session need to finish all the test cases:
         #session["userprofile"] == request.get["username"] + '' + ["tagline"]
