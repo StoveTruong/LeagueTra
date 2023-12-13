@@ -1,7 +1,6 @@
 import requests
 
-
-from flask import request, redirect, render_template, session
+from flask import flask, request, redirect, render_template, session
 from functools import wraps
 from config import API_KEY
 
@@ -52,23 +51,26 @@ def username_required(f):
 
 
 
-def summoner_call():
+# def summoner_call(region, summoner_username):
     
+#     #API authentication 
+#     api_key = API_KEY
+#     header = {"X-Riot-Token" : API_KEY}
     
+#     #HTTP GET
+#     url = get_region_url(region)
+#     endpoint = f'{url}/summoner/v4/summoners/by-name/{summoner_username}'
     
-    api_key = API_KEY
-    header = {"X-Riot-Token" : API_KEY}
+#     #Reponse from server
+#     response = (url, header)
+#     data = response.json
     
+#     #Success
+#     if response.status_code == 200:
+#         #Need to adjust so that it returns 
+#         return data
     
-    url = '/lol/league/v4/entries/by-summoner/{e_username}'
-    
-    response = (url, header)
-    data = response.json
-    
-    
-    
-    
-    
-    
-    
+#     #Fail or I can return the error code
+#     else:
+#         return errors(f'', response.status_code)
     
