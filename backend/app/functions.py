@@ -1,20 +1,23 @@
 import requests
+import datetime
+
 
 from flask import flask, request, redirect, render_template, session
 from functools import wraps
 from config import API_KEY
 
 
-#Base url
-base_urls = {
-    "na" : "https://na1.api.riotgames.com/lol",
-    "euw" :"https://euw1.api.riotgames.com/lol",
-    "eun" : "https://eun1.api.riotgames.com/lol",
-    "oc" : "https://oc.api.riotgames.com/lol",
-    "kr" : "https://kr.api.riotgames.com/lol",
-    "jp" : "https://jp1.api.riotgames.com/lol",
-}
 
+#Base url
+base_server_urls = {
+    "na" : "https://na1.api.riotgames.com/lol/",
+    "euw" :"https://euw1.api.riotgames.com/lol/",
+    "eun" : "https://eun1.api.riotgames.com/lol/",
+    "oc" : "https://oc.api.riotgames.com/lol/",
+    "kr" : "https://kr.api.riotgames.com/lol/",
+    "jp" : "https://jp1.api.riotgames.com/lol/",
+    "sg" : "https://sg2.api.riotgames.com/lol/"
+}
     
 
 def errors(message, code=400):
@@ -29,12 +32,21 @@ def errors(message, code=400):
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
-def get_region_url(region):
-    if region in base_urls:
-        return base_urls[region]
+def get_server_url(server):
+    if server in base_server_urls:
+        return base_server_urls[server]
     else:
         return None
-    
+
+def region_section(region):
+    if request.get.form(region) == 'na':
+        return 'america'
+    elif request.get.form(region) == 'eun' or 'euw':
+        return 'europe'
+    elif request.get.form(region) == 'kr' or 'jp' or 'oc':
+        return 'asia'
+
+
 
 def username_required(f):
     """
@@ -49,7 +61,79 @@ def username_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def profile(gameName, tagLine):
+    #API authentication 
+    api_key = API_KEY
+    header = {"X-Riot-Token" : api_key}
+    
+    #HTTP GET
+    
+    
+    #Reponse from server
+    response = (url, header)
+    data = response.json
+    
+    #Success
+    if response.status_code == 200:
+        #Need to adjust so that it returns 
+        return data
+    
+    #Fail or I can return the error code
+    else:
+        return errors(f'', response.status_code)
+    
+    
+def matchistory(region, puuid):
+    api_key = API_KEY
+    header = {"X-Riot-Token" : api_key}
+    selected_region = region_section(region)
+    
+    #Needs to be adjusted for different regions
+    url = "https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=20"
+    
+    response = (url, header)
+    data = response.json
+    
+    if response.status_code == 200:
+        return data
+    else:
+        if data["status"]["message"]:
+            return errors(data["status"]["message"], response.status_code)
+        else:
+            return errors("Error", response.status_code)
 
+
+def specificmatch(matchId):
+    api_key = API_KEY
+    header = {"X-Riot-Token" : api_key}
+    selected_region = region_section(region)
+    
+    #Needs to be adjusted for different regions
+    url = "https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchId}"
+    
+    response = (url, header)
+    data = response.json
+    
+    if response.status_code == 200:
+        return data
+    else:
+        if data["status"]["message"]:
+            return errors(data["status"]["message"], response.status_code)
+        else:
+            return errors("Error", response.status_code)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 # def summoner_call(region, summoner_username):
     
@@ -73,4 +157,3 @@ def username_required(f):
 #     #Fail or I can return the error code
 #     else:
 #         return errors(f'', response.status_code)
-    
