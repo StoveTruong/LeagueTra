@@ -1,50 +1,54 @@
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session
-from functions import errors, username_required, profile
+from functions import errors, puuidsearch, matchhistory
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder= 'htmlpagetesting')
 
 
 #Testing
 @app.route("/homepage")
 def homepage():
     
-    return {"testing1": ["value1", "value2", "value3"]}
+    jsonfileexample = '''{
+  "puuid": "J1sloKTsCpwuJ8bUfLnd6R9Urd28m9zpiPBQchjLXKcgImOINR7DTEoktx3oFGICFzzUgt5yUtCL9g",
+  "gameName": "Steben",
+  "tagLine": "Hehe"
+}'''
+    
+    return jsonfileexample
 
 
-@app.route("/")
-def search():
+@app.route("/search", methods=["GET", "POST"])
+def profile():
     """Profile search"""
-    session.clear()
-
     if request.method == "POST":
         
-        gameName = request.form.get("username")
-        tagLine = request.form.get("tagline")
+        gameName = request.form.get("gameName")
+        tagLine = request.form.get("tagLine")
+        server = request.form.get("server")
         
-        if gameName:
-            return errors("must provide game name", 403)
-        elif tagLine:
-            return errors("must provide tagline", 403)
+        if not gameName:
+            return errors("must provide game name", 400)
+        elif not tagLine:
+            return errors("must provide tagline", 400)
         
-        puuid = profile(gameName, tagLine)
+        puuid = puuidsearch(gameName, tagLine)
         
-        session[puuid] = puuid
+        # session[puuid] = puuid
+        # session[server] = server
         
-        return redirect("/", ), 200
+        data_mh = matchhistory(server, puuid)
+        # data_champ = championstats(puuid)
+        # data_rank = rank(puuid)
+        
+        #data_champ = data_champ, data_rank = data_rank
+        
+        return render_template("homepage.html", data_mh=data_mh), 200
     else:
-        return render_template("search-page.html"), 200
-    
-    
-@app.route("/matchhistory")
-@username_required
-def matchhistory():
-    if request.method == "GET":
-        puuidMH = session.get("puuid")
-        
-        
-        
+        return render_template("search.html")
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+#Dont do redirects let react handle it.

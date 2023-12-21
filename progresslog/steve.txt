@@ -1,7 +1,22 @@
+Future scope: Have discord intergration?
+
 12/13: Forgot to enter
 
 12/17: My vision for this project is to have a application that is just as good as op.gg but as a software.
 I strived for a clean UX/UI that replaces with the information overload provided and allows the user to see the things that matter the most.
 To accomplish that, the API calls must be done all in one. My biggest worry is is it wise to overload a def function that renders in the page for the user? Can this be done all throught the function instead of calling in the app.py file?
 
+Notes: Should remove the redirects in app.py for dynamic data rendering
 
+Learned: asynchronous calls via python flask
+
+12/18: I thought about letting frontend deal with the error handling but it just occured to me that it recently that backend should do it still. I think the problem was
+in how to display the error. I think I should do error handling display last and record notes on all the possible errors that may show up and try to have a test case for it.
+
+
+12/21: Created the test HMTL to make sure backend works will have to rework for the app eventually.
+Some clarity pop up. We can use the await and async after the user inputs information and 
+have all the functions fire off at after the submit happens. 
+
+One thing to consider is run time because the await + async does not nessarily decrease loadtime. 
+Having all the API calls launch at the same time may be bad...

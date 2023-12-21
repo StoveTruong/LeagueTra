@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/search" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="gameName" name="gameName" placeholder="Game Name" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="tagLine" name="tagLine" placeholder="tagLine" type="text">
+        </div>
+        <div>
+            <input class="form-control mx-auto w-auto" id="server" name="server" placeholder="server" type="text">
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+{% endblock %}

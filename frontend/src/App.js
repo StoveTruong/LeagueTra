@@ -21,10 +21,10 @@ function App() {
   
   return (
       <div>
-        {(typeof data.testing1 === 'undefined') ? (
+        {(typeof data.jsonfileexample === 'undefined') ? (
           <p>Loading...</p>
         ) : (
-          data.testing1.map((testing, i) =>(
+          data.jsonfileexample.map(([testing], i) =>(
             <p key={i}>{testing}</p>
           ))
         )}

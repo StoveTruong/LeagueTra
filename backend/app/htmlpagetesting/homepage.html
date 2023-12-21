@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+
+{% for s in data_mh %}
+<div>
+    {{ s }}
+</div>
+{% endfor %}
+
+{% endblock %}

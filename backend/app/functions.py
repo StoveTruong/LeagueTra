@@ -2,7 +2,7 @@ import requests
 import datetime
 
 
-from flask import flask, request, redirect, render_template, session
+from flask import Flask, request, redirect, render_template, session
 from functools import wraps
 from config import API_KEY
 
@@ -47,43 +47,43 @@ def region_section(region):
         return 'asia'
 
 
-
-def username_required(f):
-    """
-    Decorate routes to require username to access features
+# May not need this because all data is being render at the same time.
+# def username_required(f):
+#     """
+#     Decorate routes to require username to access features
     
-    https://flask.palletsprojects.com/en/3.0.x/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("username") is None:
-            return redirect ("/lookup")
-        return f(*args, **kwargs)
-    return decorated_function
+#     https://flask.palletsprojects.com/en/3.0.x/patterns/viewdecorators/
+#     """
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         if session.get("username") is None:
+#             return redirect ("/lookup")
+#         return f(*args, **kwargs)
+#     return decorated_function
 
-def profile(gameName, tagLine):
+def puuidsearch(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
     header = {"X-Riot-Token" : api_key}
     
     #HTTP GET
-    
+    url = f'https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}'
     
     #Reponse from server
-    response = (url, header)
-    data = response.json
+    response = request.get(url, header=header)
     
     #Success
     if response.status_code == 200:
-        #Need to adjust so that it returns 
+        #Need to adjust so that it returns
+        data = response.json() 
         return data
     
     #Fail or I can return the error code
     else:
-        return errors(f'', response.status_code)
+        return errors(f'Error: {response.status_code}')
     
     
-def matchistory(region, puuid):
+def matchhistory(region, puuid):
     api_key = API_KEY
     header = {"X-Riot-Token" : api_key}
     selected_region = region_section(region)
