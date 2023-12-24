@@ -6,9 +6,8 @@ app = Flask(__name__, template_folder= 'htmlpagetesting')
 
 
 #Testing
-@app.route("/homepage")
+@app.route("/homepage", methods=["GET", "POST"])
 def homepage():
-    
     jsonfileexample = '''{
   "puuid": "J1sloKTsCpwuJ8bUfLnd6R9Urd28m9zpiPBQchjLXKcgImOINR7DTEoktx3oFGICFzzUgt5yUtCL9g",
   "gameName": "Steben",

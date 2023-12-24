@@ -20,3 +20,5 @@ have all the functions fire off at after the submit happens.
 
 One thing to consider is run time because the await + async does not nessarily decrease loadtime. 
 Having all the API calls launch at the same time may be bad...
+
+12/23: Will be switching over to Obsidian for note taking and mind reading

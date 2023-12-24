@@ -64,13 +64,13 @@ def region_section(region):
 def puuidsearch(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
-    header = {"X-Riot-Token" : api_key}
+    headers = {"X-Riot-Token" : api_key}
     
     #HTTP GET
     url = f'https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}'
     
     #Reponse from server
-    response = request.get(url, header=header)
+    response = requests.get(url, headers=headers)
     
     #Success
     if response.status_code == 200:

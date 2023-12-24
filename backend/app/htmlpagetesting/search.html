@@ -5,17 +5,50 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/search" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="gameName" name="gameName" placeholder="Game Name" type="text">
-        </div>
-        <div class="mb-3">
-            <input class="form-control mx-auto w-auto" id="tagLine" name="tagLine" placeholder="tagLine" type="text">
-        </div>
-        <div>
-            <input class="form-control mx-auto w-auto" id="server" name="server" placeholder="server" type="text">
-        </div>
-        <br>
-        <button class="btn btn-primary" type="submit">Search</button>
-    </form>
+<form action="/search" method="post">
+    <!-- Game Name Input -->
+    <div class="mb-3">
+        <label for="gameName">Game name:</label>
+        <input type="text" id="gameName" name="gameName" placeholder="Enter Game Name" autocomplete="off" autofocus required>
+    </div>
+
+    <!-- Tagline Input -->
+    <div class="mb-3">
+        <label for="tagLine">Tag line:</label>
+        <input type="text" id="tagLine" name="tagLine" placeholder="Enter Tagline">
+    </div>
+
+    <!-- Region Selection -->
+    <div>
+        <label>Choose Region:</label>
+        <input type="radio" id="NA" name="region" value="na" checked>
+        <label for="NA">NA</label>
+
+        <input type="radio" id="EUW" name="region" value="euw">
+        <label for="EUW">EUW</label>
+
+        <input type="radio" id="EUN" name="region" value="eun">
+        <label for="EUN">EUN</label>
+
+        <input type="radio" id="OC" name="region" value="oc">
+        <label for="OC">OC</label>
+
+        <input type="radio" id="KR" name="region" value="kr">
+        <label for="KR">KR</label>
+
+        <input type="radio" id="JP" name="region" value="jp">
+        <label for="JP">JP</label>
+
+        <input type="radio" id="SG" name="region" value="sg">
+        <label for="SG">SG</label>
+
+        <!-- Add the rest of the regions here -->
+
+    </div>
+
+    <br>
+
+    <!-- Search Button -->
+    <button type="submit">Search</button>
+</form>
 {% endblock %}
