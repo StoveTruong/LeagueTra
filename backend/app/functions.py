@@ -20,7 +20,7 @@ base_server_urls = {
 }
     
 
-def errors(message, code=400):
+def errors(message, code=400): #Try to improve it/
     def escape(s):
         """
         Render error messages to users
@@ -39,11 +39,11 @@ def get_server_url(server):
         return None
 
 def region_section(region):
-    if request.get.form(region) == 'na':
+    if request.form(region) == 'na':
         return 'america'
-    elif request.get.form(region) == 'eun' or 'euw':
+    elif request.form(region) == 'eun' or 'euw':
         return 'europe'
-    elif request.get.form(region) == 'kr' or 'jp' or 'oc':
+    elif request.form(region) == 'kr' or 'jp' or 'oc':
         return 'asia'
 
 
@@ -130,16 +130,6 @@ def specificmatch(matchId):
     
     
     
-    
-    
-    
-    
-
-# def summoner_call(region, summoner_username):
-    
-#     #API authentication 
-#     api_key = API_KEY
-#     header = {"X-Riot-Token" : API_KEY}
     
 #     #HTTP GET
 #     url = get_region_url(region)

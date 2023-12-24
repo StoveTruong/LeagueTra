@@ -17,11 +17,10 @@ def homepage():
     return jsonfileexample
 
 
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def profile():
     """Profile search"""
     if request.method == "POST":
-        
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
@@ -36,15 +35,17 @@ def profile():
         # session[puuid] = puuid
         # session[server] = server
         
-        data_mh = matchhistory(server, puuid)
+        #data_mh = matchhistory(server, puuid)
         # data_champ = championstats(puuid)
         # data_rank = rank(puuid)
         
         #data_champ = data_champ, data_rank = data_rank
         
-        return render_template("homepage.html", data_mh=data_mh), 200
+        return render_template("homepage.html", data_mh=puuid), 200
     else:
         return render_template("search.html")
+    
+
 
 
 if __name__ == "__main__":
