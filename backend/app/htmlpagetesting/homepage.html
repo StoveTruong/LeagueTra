@@ -1,15 +1,20 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Homepage
+ {{puuid_result.gameName}}#{{puuid_result.tagLine}}
 {% endblock %}
 
 {% block main %}
 
-{% for s in data_mh %}
-<div>
-    {{ s }}
-</div>
+  <div>
+    {{puuid_result.gameName}}#{{puuid_result.tagLine}}
+  </div>
+  
+
+{% for matches in matchhistory_result %}
+  <div>
+    {{ matches }}<a href=></a>
+  </div>
 {% endfor %}
 
 {% endblock %}

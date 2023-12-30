@@ -38,13 +38,15 @@ def get_server_url(server):
     else:
         return None
 
-def region_section(region):
-    if request.form(region) == 'na':
-        return 'america'
-    elif request.form(region) == 'eun' or 'euw':
+def region_section(server):
+    if server == 'na':
+        return 'americas'
+    elif server == 'eun' or server =='euw':
         return 'europe'
-    elif request.form(region) == 'kr' or 'jp' or 'oc':
+    elif server == 'kr' or server =='jp' or server == 'oc':
         return 'asia'
+    elif server =='sg':
+        return 'sea'
 
 
 # May not need this because all data is being render at the same time.
@@ -68,7 +70,6 @@ def puuidsearch(gameName, tagLine):
     
     #HTTP GET
     url = f'https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}'
-    
     #Reponse from server
     response = requests.get(url, headers=headers)
     
@@ -83,67 +84,38 @@ def puuidsearch(gameName, tagLine):
         return errors(f'Error: {response.status_code}')
     
     
-def matchhistory(region, puuid):
+def matchhistory(server, puuid):
     api_key = API_KEY
-    header = {"X-Riot-Token" : api_key}
-    selected_region = region_section(region)
+    headers = {"X-Riot-Token" : api_key}
+    selected_region = region_section(server)
     
-    #Needs to be adjusted for different regions
-    url = "https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?type=ranked&start=0&count=20"
-    
-    response = (url, header)
-    data = response.json
+    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20"
+    response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
-        return data
+        return response.json()
     else:
-        if data["status"]["message"]:
+        data = response.json()
+        if 'status' in data:
             return errors(data["status"]["message"], response.status_code)
         else:
             return errors("Error", response.status_code)
 
 
-def specificmatch(matchId):
+def specific_match(server, matchid):
     api_key = API_KEY
-    header = {"X-Riot-Token" : api_key}
-    selected_region = region_section(region)
+    headers = {"X-Riot-Token" : api_key}
+    selected_region = region_section(server)
     
-    #Needs to be adjusted for different regions
-    url = "https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchId}"
+    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchid}"
+    response = requests.get(url, headers=headers)
     
-    response = (url, header)
-    data = response.json
     
     if response.status_code == 200:
-        return data
+        return response.json()
     else:
-        if data["status"]["message"]:
+        data = response.json()
+        if 'status' in data:
             return errors(data["status"]["message"], response.status_code)
         else:
             return errors("Error", response.status_code)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-#     #HTTP GET
-#     url = get_region_url(region)
-#     endpoint = f'{url}/summoner/v4/summoners/by-name/{summoner_username}'
-    
-#     #Reponse from server
-#     response = (url, header)
-#     data = response.json
-    
-#     #Success
-#     if response.status_code == 200:
-#         #Need to adjust so that it returns 
-#         return data
-    
-#     #Fail or I can return the error code
-#     else:
-#         return errors(f'', response.status_code)
