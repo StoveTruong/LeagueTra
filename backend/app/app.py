@@ -43,23 +43,27 @@ def profile():
         print(puuid)
         
         matchhistory_result = matchhistory(server, puuid)
-        mh_result = matchhistory(server, puuid)
+        matchhistorystorage = []
+        
+        for match_details in matchhistory_result:
+            matches = specific_match(server, match_details)
+            matchhistorystorage.append(matches)
+             
+        print(matchhistorystorage[0])
+        
 
-        return render_template("homepage.html", puuid_result=puuid_result, matchhistory_result=matchhistory_result), 200
+        return render_template("homepage.html", puuid_result=puuid_result, matchhistory_result=matchhistory_result, matchhistorystorage=matchhistorystorage), 200
     
     else:
         return render_template("search.html")
 
 
-@app.route("/match/{match_id}", methods=["GET, POST"])
-def match():
-    if request.method == "POST":
-        matchid = request.form.get("matchid")
-        server = session['server']
-        
-        
-        data = specific_match(server, matchid)
-    return render_template("match.html", data=data)
+# @app.route("/match/<match_id>", methods=["GET, POST"])
+# def match(match_id):
+#     server = session['server']
+#     data = specific_match(server, match_id)
+    
+#     return render_template("match.html", data=data)
     
 
 

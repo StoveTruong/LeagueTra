@@ -12,9 +12,49 @@
   
 
 {% for matches in matchhistory_result %}
-  <div>
-    {{ matches }}<a href=></a>
+  <div >
+    {{ matches }}
   </div>
 {% endfor %}
+
+<!--
+Return these following items use the following example: NA1_4878164647...
+Points of concern:
+Game mode
+Backend vs Frontend data retrieval.
+We can store a list of all the data we need from backend and store it in a list.
+Then front end can call the list in order. 
+
+-Return Metagame info:
+  -Game duration 925/60= 15.4166 = 15:25
+  -Return how long ago was the games (refer to Epoch time)
+  -puuid of other players to call their profile
+    -Call profile function using their puuid on click
+    -Display gameName > puuid
+  -Game related
+    -Return user's
+      -Champ
+      -End game level
+      -Summoner spells
+      -Rune keystone
+    -Match
+      -Outcome
+      Return Ranks & Avg Rank of game
+      -Return all the items [info][participants][0][item 0-6]
+      -Return score in K/D/A of user + others
+      -Return CS of user + others
+
+- -->
+{% for match in matchhistorystorage %}
+<br>
+<div> {{ match['info']['duration']%60}}
+  {% for participant in match['info']['participants'] %}
+    <div>
+      {{ participant['championName'] }}
+    </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
 
 {% endblock %}
