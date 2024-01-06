@@ -1,23 +1,15 @@
 {% extends "layout.html" %}
 
 {% block title %}
- {{puuid_result.gameName}}#{{puuid_result.tagLine}}
+  {{puuid_result.gameName}}#{{puuid_result.tagLine}}
 {% endblock %}
 
 {% block main %}
 
-  <div>
-    {{puuid_result.gameName}}#{{puuid_result.tagLine}}
-  </div>
-  
 
-{% for matches in matchhistory_result %}
-  <div >
-    {{ matches }}
-  </div>
-{% endfor %}
 
 <!--
+  
 Return these following items use the following example: NA1_4878164647...
 Points of concern:
 Game mode
@@ -29,11 +21,11 @@ Then front end can call the list in order.
   -Game duration 925/60= 15.4166 = 15:25
   -Return how long ago was the games (refer to Epoch time)
   -puuid of other players to call their profile
-    -Call profile function using their puuid on click
-    -Display gameName > puuid
+    -Call profile function using their puuid on click (Worry about later)
+    -Display gameName > puuid (Worry about later)
   -Game related
     -Return user's
-      -Champ
+      -Champ  
       -End game level
       -Summoner spells
       -Rune keystone
@@ -44,17 +36,19 @@ Then front end can call the list in order.
       -Return score in K/D/A of user + others
       -Return CS of user + others
 
-- -->
-{% for match in matchhistorystorage %}
-<br>
-<div> {{ match['info']['duration']%60}}
-  {% for participant in match['info']['participants'] %}
-    <div>
-      {{ participant['championName'] }}
-    </div>
+  -->
+<h2>Match History</h2>
+<div>
+  {% for match_id, match_data in user_profile['profiledata']['matchHistory'].items()%}
+  <h3>
+    Match ID: {{match_id}}
+  </h3>
+  <div>
+    Match details: {{match_data["info"]["participants"][0]["championName"]}}
+  </div>
   {% endfor %}
 </div>
-{% endfor %}
+
 
 
 {% endblock %}

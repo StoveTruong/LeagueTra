@@ -21,11 +21,22 @@ def homepage():
     
     return jsonfileexample
 
+user_profile = {
+    "profiledata": {
+        "puuid":"",
+        "gameName": "",
+        "tagLine": "",
+        "server": "",
+        "matchHistory": {
+        }
+    }
+}
 
 @app.route("/", methods=["GET", "POST"])
 def profile():
     """Profile search"""
     if request.method == "POST":
+
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
@@ -38,33 +49,39 @@ def profile():
         elif not tagLine:
             return errors("must provide tagline", 400)
         
+        
+        #API calls
         puuid_result = puuidsearch(gameName, tagLine)
+        #Check to see if account exists
+        if puuid_result == 403:
+            return errors("Does not exist", 403)
+        
         puuid = puuid_result["puuid"]
-        print(puuid)
-        
-        matchhistory_result = matchhistory(server, puuid)
-        matchhistorystorage = []
-        
-        for match_details in matchhistory_result:
-            matches = specific_match(server, match_details)
-            matchhistorystorage.append(matches)
-             
-        print(matchhistorystorage[0])
-        
+        user_profile["profiledata"]["puuid"] = puuid
+        user_profile["profiledata"]["gameName"] = gameName
+        user_profile["profiledata"]["tagLine"] = tagLine
+        user_profile["profiledata"]["server"] = server
 
-        return render_template("homepage.html", puuid_result=puuid_result, matchhistory_result=matchhistory_result, matchhistorystorage=matchhistorystorage), 200
+        #Get a list of match id & get details of specific match then append to json
+        matchHistory_result = matchhistory(server, puuid)
+        for match_id in matchHistory_result:
+            match_details = specific_match(server, match_id)
+            for player in match_details["metadata"]["participants"]:
+                if player == puuid:
+                    return player
+                    break
+                else:
+                    return errors("Riot API error", 404)
+            
+            user_profile["profiledata"]["matchHistory"][match_id] = match_details
+
+        return render_template("homepage.html", puuid_result=puuid_result, user_profile=user_profile), 200
     
     else:
         return render_template("search.html")
 
 
-# @app.route("/match/<match_id>", methods=["GET, POST"])
-# def match(match_id):
-#     server = session['server']
-#     data = specific_match(server, match_id)
-    
-#     return render_template("match.html", data=data)
-    
+
 
 
 if __name__ == "__main__":
