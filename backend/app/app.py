@@ -66,13 +66,16 @@ def profile():
         matchHistory_result = matchhistory(server, puuid)
         for match_id in matchHistory_result:
             match_details = specific_match(server, match_id)
+            print(match_details["metadata"]["participants"])
+            #Check for which one is the player looked up. Is there a way to move the player frame 
             for player in match_details["metadata"]["participants"]:
-                if player == puuid:
-                    return player
-                    break
+                print(player)
+                print(puuid)
+                if player != puuid:
+                    continue
                 else:
-                    return errors("Riot API error", 404)
-            
+                    print(player)
+            #"Hardcode" required data into the json file to return to frontend. 
             user_profile["profiledata"]["matchHistory"][match_id] = match_details
 
         return render_template("homepage.html", puuid_result=puuid_result, user_profile=user_profile), 200
