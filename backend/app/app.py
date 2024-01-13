@@ -1,13 +1,13 @@
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session
-from flask_session import Session
+# from flask_session import Session
 from functions import errors, puuidsearch, matchhistory, specific_match
 
 app = Flask(__name__, template_folder= 'htmlpagetesting')
 
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# Session(app)
 
 
 #Testing
@@ -23,25 +23,35 @@ def homepage():
 
 user_profile = {
     "profiledata": {
-        "puuid":"",
+        "puuid": "",
         "gameName": "",
         "tagLine": "",
-        "server": "",
-        "matchHistory": {
-        }
-    }
+        "server": ""
+    },
+    "matchHistory": [
+        {
+            "matchId": "",
+            "userGameData": {},
+            "otherPlayers": []
+        },
+    ]
+}
+new_match_dict = {
+    "matchId": "new_match_id",
+    "userGameData": {},
+    "otherPlayers": []
 }
 
 @app.route("/", methods=["GET", "POST"])
 def profile():
     """Profile search"""
     if request.method == "POST":
-
+        #Get the user's info look up
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
         
-        session['server'] = server
+        #session['server'] = server
         
         #Work on possible test cases:
         if not gameName:
@@ -65,19 +75,21 @@ def profile():
         #Get a list of match id & get details of specific match then append to json
         matchHistory_result = matchhistory(server, puuid)
         for match_id in matchHistory_result:
+            #Call API
             match_details = specific_match(server, match_id)
-            print(match_details["metadata"]["participants"])
+            #Add new dictionary to user profile for new game
+            user_profile["matchHistory"].append(new_match_dict)
+            #Find index added to the match
+            new_match_index = len(user_profile["matchHistory"]) - 1
             #Check for which one is the player looked up. Is there a way to move the player frame 
-            for player in match_details["metadata"]["participants"]:
-                print(player)
-                print(puuid)
-                if player != puuid:
+            for player_index, player in enumerate(match_details["info"]["participants"]):
+                #Find the puuid of the player
+                if player["puuid"] != puuid:
                     continue
                 else:
-                    print(player)
+                    user_profile["matchHistory"][new_match_index]["userGameData"] = match_details["info"]["participants"][player_index]
             #"Hardcode" required data into the json file to return to frontend. 
-            user_profile["profiledata"]["matchHistory"][match_id] = match_details
-
+        print(user_profile)
         return render_template("homepage.html", puuid_result=puuid_result, user_profile=user_profile), 200
     
     else:
@@ -92,3 +104,7 @@ if __name__ == "__main__":
 
     
 #Dont do redirects let react handle it. We can use it for now. Will remove html pages testing  for react 
+
+
+#Todo (steve):
+#Confirm python can take specific 
