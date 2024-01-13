@@ -4,9 +4,10 @@
 node_modules
 /.pnp
 .pnp.js
-backend/config.py
+backend/app/config.py
 valotracvenv/Lib/site-packages
 venv
+__pycache__
 
 # testing
 /coverage
@@ -24,3 +25,6 @@ venv
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+backend/app/flask_session
+backend/app/__pycache__
