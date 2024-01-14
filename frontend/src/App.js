@@ -22,13 +22,13 @@ function App() {
   
   return (
       <div>
-        {(typeof data.testing1 === 'undefined') ? (
+        {(typeof data.jsonfileexample === 'undefined') ? (
           <p>Loading...</p>
         ) : (
-          <SearchPageComponent></SearchPageComponent>
-          // data.testing1.map((testing, i) =>(
-          //   <p key={i}>{testing}</p>
-          // ))
+          // <SearchPageComponent></SearchPageComponent>
+          data.jsonfileexample.map(([testing], i) =>(
+            <p key={i}>{testing}</p>
+          ))
         )}
 
       </div>
