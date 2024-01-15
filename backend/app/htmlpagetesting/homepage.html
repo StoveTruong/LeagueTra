@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-  {{puuid_result.gameName}}#{{puuid_result.tagLine}}
+  {{user_profile["profiledata"]["gameName"]}}#{{user_profile["profiledata"]["tagLine"]}}
 {% endblock %}
 
 {% block main %}
@@ -39,14 +39,7 @@ Then front end can call the list in order.
   -->
 <h2>Match History</h2>
 <div>
-  {% for match_id, match_data in user_profile['profiledata']['matchHistory'].items()%}
-  <h3>
-    Match ID: {{match_id}}
-  </h3>
-  <div>
-    Match details: {{match_data["info"]["participants"][0]["championName"]}}
-  </div>
-  {% endfor %}
+  {{ user_profile}}
 </div>
 
 

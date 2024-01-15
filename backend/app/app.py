@@ -28,18 +28,9 @@ user_profile = {
         "tagLine": "",
         "server": ""
     },
-    "matchHistory": [
-        {
-            "matchId": "",
-            "userGameData": {},
-            "otherPlayers": []
-        },
-    ]
-}
-new_match_dict = {
-    "matchId": "new_match_id",
-    "userGameData": {},
-    "otherPlayers": []
+    "matchHistory": {
+        
+    }
 }
 
 @app.route("/", methods=["GET", "POST"])
@@ -75,21 +66,22 @@ def profile():
         #Get a list of match id & get details of specific match then append to json
         matchHistory_result = matchhistory(server, puuid)
         for match_id in matchHistory_result:
-            #Call API
             match_details = specific_match(server, match_id)
-            #Add new dictionary to user profile for new game
-            user_profile["matchHistory"].append(new_match_dict)
-            #Find index added to the match
-            new_match_index = len(user_profile["matchHistory"]) - 1
-            #Check for which one is the player looked up. Is there a way to move the player frame 
-            for player_index, player in enumerate(match_details["info"]["participants"]):
-                #Find the puuid of the player
-                if player["puuid"] != puuid:
-                    continue
+          
+            match_data = {
+                "userGameData": None,
+                "otherPlayers": []
+            }
+
+            for player in match_details["info"]["participants"]:
+                if player["puuid"] == puuid:
+                    match_data["userGameData"] = player["championName"]
                 else:
-                    user_profile["matchHistory"][new_match_index]["userGameData"] = match_details["info"]["participants"][player_index]
-            #"Hardcode" required data into the json file to return to frontend. 
-        print(user_profile)
+                    match_data["otherPlayers"].append(player["championName"])
+                    match_data["otherPlayers"].append(player["riotIdGameName"])
+            
+            user_profile["matchHistory"][str(match_id)] = match_data
+
         return render_template("homepage.html", puuid_result=puuid_result, user_profile=user_profile), 200
     
     else:
