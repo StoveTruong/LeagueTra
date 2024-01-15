@@ -42,7 +42,6 @@ def profile():
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
         
-        #session['server'] = server
         
         #Work on possible test cases:
         if not gameName:
@@ -69,16 +68,18 @@ def profile():
             match_details = specific_match(server, match_id)
           
             match_data = {
-                "userGameData": None,
+                "userGameData": [],
                 "otherPlayers": []
             }
 
             for player in match_details["info"]["participants"]:
                 if player["puuid"] == puuid:
                     match_data["userGameData"] = player["championName"]
+                    match_data["userGameData"] = player["teamID"]
                 else:
                     match_data["otherPlayers"].append(player["championName"])
                     match_data["otherPlayers"].append(player["riotIdGameName"])
+                    match_data["otherPlayers"] = player["teamID"]
             
             user_profile["matchHistory"][str(match_id)] = match_data
 
