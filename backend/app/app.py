@@ -68,20 +68,32 @@ def profile():
             match_details = specific_match(server, match_id)
           
             match_data = {
+                "metaData": [],
                 "userGameData": [],
                 "otherPlayers": []
             }
+            
+            #Total seconds in the game
+            gameDuration = match_details["info"]["gameDuration"]
+            minutes = gameDuration // 60
+            seconds = gameDuration % 60
+            
+            match_data["metaData"].append(minutes)
+            match_data["metaData"].append(seconds)
+            match_data["metaData"].append(match_details["info"]["gameEndTimestamp"])
+            
 
             for player in match_details["info"]["participants"]:
                 if player["puuid"] == puuid:
-                    match_data["userGameData"] = player["championName"]
-                    match_data["userGameData"] = player["teamID"]
+                    match_data["userGameData"].append(player["championName"])
+                    match_data["userGameData"].append(player["teamId"])
                 else:
                     match_data["otherPlayers"].append(player["championName"])
                     match_data["otherPlayers"].append(player["riotIdGameName"])
-                    match_data["otherPlayers"] = player["teamID"]
+                    match_data["otherPlayers"].append(player["teamId"])
             
             user_profile["matchHistory"][str(match_id)] = match_data
+            #Do datadragon calls here 
 
         return render_template("homepage.html", puuid_result=puuid_result, user_profile=user_profile), 200
     
