@@ -4,42 +4,43 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import './search-page.css'
 
 export default function SearchPageComponent() {
-  const testUrl = '/getFullInfo';
+  const getFullPlayerUrl = '/getFullInfo';
 
-  const [searchInput, setSearchInput] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState('Select Region');
+
+  const [searchInput, setSearchInput] = useState('');
   const [searchResult, setSearchResult] = useState({});
 
   function HandleSearch() {
-    if(searchInput) {
-      // Validates User Input to see if it is a valid IGN
-      let taglineIndex = searchInput.indexOf('#');
-      let _tagLine = searchInput.substring(taglineIndex + 1, searchInput.length);
-      if(taglineIndex < 0 || !_tagLine) {
-        setSearchResult({error: 'Please enter tagline'});
-        return;
-      }
-      let _gameName = searchInput.substring(0, taglineIndex);
-      if(!_gameName) {
-        setSearchResult('Please enter name');
-        return;
-      } 
-      setSearchResult('');
-
-      const urlParams = `gameName=${_gameName}&tagLine=${_tagLine}&server=na`;
-      const finalUrl = testUrl + '?' + urlParams;
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      };
-
-      fetch(finalUrl, requestOptions)
-        .then(response => response.json())
-        .then(json => setSearchResult(json))
-        .catch(error => console.error(error));
+    // Validates User Input to see if it is a valid IGN
+    let taglineIndex = searchInput.indexOf('#');
+    let _tagLine = searchInput.substring(taglineIndex + 1);
+    if(taglineIndex < 0 || !_tagLine) {
+      setSearchResult({error: 'Please enter tagline'});
+      return;
     }
-    else {
-      setSearchResult("Please provide a valid search");
+    let _gameName = searchInput.substring(0, taglineIndex);
+    if(!_gameName) {
+      setSearchResult({error: 'Please enter name'});
+      return;
     }
+    if(!selectedRegion) {
+      setSearchResult({error: 'Please select a region'});
+      return;
+    }
+    setSearchResult(null);
+
+    const urlParams = `gameName=${_gameName}&tagLine=${_tagLine}&server=${selectedRegion.toLowerCase()}`;
+    const finalUrl = getFullPlayerUrl + '?' + urlParams;
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    fetch(finalUrl, requestOptions)
+      .then(response => response.json())
+      .then(json => setSearchResult(json))
+      .catch(error => console.error(error));
   }
 
   return (
@@ -47,17 +48,17 @@ export default function SearchPageComponent() {
       <div className='searchForm'>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Dropdown Button
+            {selectedRegion}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">NA</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">EUW</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">EUN</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">OC</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">KR</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">JP</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">SG</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>NA</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>EUW</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>EUN</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>OC</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>KR</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>JP</Dropdown.Item>
+            <Dropdown.Item onClick={event => {setSelectedRegion(event.target.text)}}>SG</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <input className='summonerSearchbar' type="text" placeholder="SummonerName#ID" onChange={event => {setSearchInput(event.target.value)}} 
