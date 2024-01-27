@@ -1,6 +1,7 @@
 import requests
 import datetime
-
+import asyncio
+import aiohttp
 
 from flask import Flask, request, redirect, render_template, session
 from functools import wraps
@@ -63,7 +64,7 @@ def region_section(server):
 #         return f(*args, **kwargs)
 #     return decorated_function
 
-def puuidsearch(gameName, tagLine):
+async   def getPuuid(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
@@ -84,7 +85,7 @@ def puuidsearch(gameName, tagLine):
         return errors(f'Error: {response.status_code}')
     
     
-def matchhistory(server, puuid):
+def getMatchList(server, puuid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = region_section(server)
@@ -102,20 +103,20 @@ def matchhistory(server, puuid):
             return errors("Error", response.status_code)
 
 
-def specific_match(server, matchid):
+async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = region_section(server)
     
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchid}"
-    response = requests.get(url, headers=headers)
     
     
-    if response.status_code == 200:
-        return response.json()
-    else:
-        data = response.json()
-        if 'status' in data:
-            return errors(data["status"]["message"], response.status_code)
+    async with session.get(url, headers=headers) as response:
+        if response.status_code == 200:
+            return response.json()
         else:
-            return errors("Error", response.status_code)
+            data = response.json()
+            if 'status' in data:
+                return errors(data["status"]["message"], response.status_code)
+            else:
+                return errors("Error", response.status_code)

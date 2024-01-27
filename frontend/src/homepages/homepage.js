@@ -6,20 +6,29 @@ import './homepage.css'
 
 //functinonal compeonent
 function HomePage() {
-    //useSate hook 
-    const [data, setData] = useState(null);
+
+    //Figure out how to grab data. 
+    //Need to redo data according to Brian's explaination. 
+    //Brian: Instead of sending data all compiled into one json. We should consider
+    //splitting the return that way the frontend can digest the data returned.
+
+    //Store fetched data
+    const [player, setData] = useState(null);
+
+    //Dark/Light mode
+    const [click, setClick] = useState(false)
+    const handleClick = () => setClick(!click)
 
     useEffect(() =>{
         fetch('flaskreturnurl')
-        .then(response => response.json)
+        .then(response => response.json())
         .then(data => setData(data))
         .catch(error => console.error('Error fetching data:', error));
     });
 
     return(
         <div>
-            <h1>Homepage</h1>
-
+            
         </div>
     )
 }
