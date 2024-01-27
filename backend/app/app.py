@@ -1,7 +1,7 @@
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session
 # from flask_session import Session
-from functions import errors, puuidsearch, matchhistory, specific_match
+from functions import errors, puuidsearch, matchhistory, specific_match, summoner_profile
 
 app = Flask(__name__, template_folder= 'htmlpagetesting')
 
