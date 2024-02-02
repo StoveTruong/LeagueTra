@@ -78,7 +78,7 @@ def getMatchList(server, puuid):
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
     
-    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20"
+    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10"
     response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
