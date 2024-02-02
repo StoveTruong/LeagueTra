@@ -64,7 +64,7 @@ def region_section(server):
 #         return f(*args, **kwargs)
 #     return decorated_function
 
-async   def getPuuid(gameName, tagLine):
+def getPuuid(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}

@@ -128,8 +128,14 @@ async def run():
     puuid = await getPuuid(gameName, tagLine) #Async
     match_ids = await getMatchList(server,puuid) #Async
     
+    #Does the async call concurrently
     async with aiohttp.ClientSession() as session:
-        results = await getMatchDetails(session, server, match_ids)
+        
+        tasks = {match_id: getMatchDetails(session, server, match_ids) for match_id in match_ids}
+        results = await asyncio.gather(*tasks.values())
+        
+        print(results)
+        
 
 
 if __name__ == "__main__":
