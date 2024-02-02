@@ -4,7 +4,7 @@ import aiohttp
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session
 # from flask_session import Session
-from functions import errors, getPuuid, getMatchList, getMatchDetails, getSummonerDetails
+from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails
 
 app = Flask(__name__, template_folder= 'htmlpagetesting')
 
@@ -119,23 +119,33 @@ def homepage():
 # } 
 
 
-@app.route("/get-profile", methods = ["GET"])
+@app.route("/", methods=["GET", "POST"])
 async def run():
-    gameName = request.args.get("gameName")
-    tagLine = request.args.get("tagLine")
-    server = request.args.get("server")
-    
-    puuid = await getPuuid(gameName, tagLine) #Async
-    match_ids = await getMatchList(server,puuid) #Async
-    
-    #Does the async call concurrently
-    async with aiohttp.ClientSession() as session:
+    if request.method == "POST":
+        # gameName = request.args.get("gameName")
+        # tagLine = request.args.get("tagLine")
+        # server = request.args.get("server")
+        gameName = request.form.get("gameName")
+        tagLine = request.form.get("tagLine")
+        server = request.form.get("server")
         
-        tasks = {match_id: getMatchDetails(session, server, match_ids) for match_id in match_ids}
-        results = await asyncio.gather(*tasks.values())
+        profile_info = getPuuid(gameName, tagLine)
+        match_ids = getMatchList(server, profile_info["puuid"])
         
-        print(results)
+        print("################################################################################################################################################################################################################################################################################################################################################################################################################################################")
+        print(profile_info)
+        print(match_ids)
         
+        #Does the async call concurrently
+        async with aiohttp.ClientSession() as session:
+            
+            tasks = [getMatchDetails(session, server, match_ids) for match_id in match_ids]
+            results = await asyncio.gather(*tasks)
+            
+        return (results)
+    else:
+        return render_template("search.html")
+            
 
 
 if __name__ == "__main__":

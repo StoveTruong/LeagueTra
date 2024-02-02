@@ -10,36 +10,24 @@ from config import API_KEY
 
 
 #Base url
-base_server_urls = {
-    "na" : "https://na1.api.riotgames.com/lol/",
-    "euw" :"https://euw1.api.riotgames.com/lol/",
-    "eun" : "https://eun1.api.riotgames.com/lol/",
-    "oc" : "https://oc.api.riotgames.com/lol/",
-    "kr" : "https://kr.api.riotgames.com/lol/",
-    "jp" : "https://jp1.api.riotgames.com/lol/",
-    "sg" : "https://sg2.api.riotgames.com/lol/"
+base_server = {
+    "na" : "na1",
+    "euw" :"euw1",
+    "eun" : "eun1",
+    "oc" : "oc",
+    "kr" : "kr",
+    "jp" : "jp1",
+    "sg" : "sg2",
 }
-    
 
-def errors(message, code=400): #Try to improve it/
-    def escape(s):
-        """
-        Render error messages to users
-        """
-        
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                        ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
 
-def get_server_url(server):
-    if server in base_server_urls:
-        return base_server_urls[server]
+def get_server(server):
+    if server in base_server:
+        return base_server[server]
     else:
         return None
 
-def region_section(server):
+def get_region(server):
     if server == 'na':
         return 'americas'
     elif server == 'eun' or server =='euw':
@@ -88,7 +76,7 @@ def getPuuid(gameName, tagLine):
 def getMatchList(server, puuid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
-    selected_region = region_section(server)
+    selected_region = get_region(server)
     
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20"
     response = requests.get(url, headers=headers)
@@ -98,25 +86,35 @@ def getMatchList(server, puuid):
     else:
         data = response.json()
         if 'status' in data:
-            return errors(data["status"]["message"], response.status_code)
-        else:
-            return errors("Error", response.status_code)
-
+            return print(f"1) Error with {server} and {puuid}")
 
 async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
-    selected_region = region_section(server)
+    selected_region = get_region(server)
     
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchid}"
     
     
     async with session.get(url, headers=headers) as response:
-        if response.status_code == 200:
-            return response.json()
+        if response.status == 200:
+            return await response.json()
         else:
-            data = response.json()
+            data = await response.json()
             if 'status' in data:
-                return errors(data["status"]["message"], response.status_code)
-            else:
-                return errors("Error", response.status_code)
+                return print(f"1) Error with {server} and {matchid}")
+
+def getSummonerDetails(server, puuid):
+    api_key = API_KEY
+    headers = {"X-Riot-Token" : api_key}
+    selected_server = get_server(server)
+    
+    url = f"https://{selected_server}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}"
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        data = response.json()
+        if 'status' in data:
+            return print(f"1) Error with {server} and {puuid}")
