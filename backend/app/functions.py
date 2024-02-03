@@ -1,6 +1,7 @@
 import requests
 import datetime
-
+import asyncio
+import aiohttp
 
 from flask import Flask, request, redirect, render_template, session
 from functools import wraps
@@ -18,19 +19,7 @@ base_server = {
     "jp" : "jp1",
     "sg" : "sg2",
 }
-    
 
-def errors(message, code=400): #Try to improve it/
-    def escape(s):
-        """
-        Render error messages to users
-        """
-        
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                        ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
 
 def get_server(server):
     if server in base_server:
@@ -63,7 +52,7 @@ def get_region(server):
 #         return f(*args, **kwargs)
 #     return decorated_function
 
-def puuidsearch(gameName, tagLine):
+def getPuuid(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
@@ -84,12 +73,12 @@ def puuidsearch(gameName, tagLine):
         return errors(f'Error: {response.status_code}')
     
     
-def matchhistory(server, puuid):
+def getMatchList(server, puuid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
     
-    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20"
+    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10"
     response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
@@ -97,30 +86,25 @@ def matchhistory(server, puuid):
     else:
         data = response.json()
         if 'status' in data:
-            return errors(data["status"]["message"], response.status_code)
-        else:
-            return errors("Error", response.status_code)
+            return print(f"1) Error with {server} and {puuid}")
 
-
-def specific_match(server, matchid):
+async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
     
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchid}"
-    response = requests.get(url, headers=headers)
     
     
-    if response.status_code == 200:
-        return response.json()
-    else:
-        data = response.json()
-        if 'status' in data:
-            return errors(data["status"]["message"], response.status_code)
+    async with session.get(url, headers=headers) as response:
+        if response.status == 200:
+            return await response.json()
         else:
-            return errors("Error", response.status_code)
-        
-def summoner_profile(server, puuid):
+            data = await response.json()
+            if 'status' in data:
+                return print(f"1) Error with {server} and {matchid}")
+
+def getSummonerDetails(server, puuid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_server = get_server(server)
@@ -133,6 +117,4 @@ def summoner_profile(server, puuid):
     else:
         data = response.json()
         if 'status' in data:
-            return errors(data["status"]["message"], response.status_code)
-        else:
-            return errors("Error", response.status_code)
+            return print(f"1) Error with {server} and {puuid}")
