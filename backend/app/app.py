@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 
 from config import API_KEY
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 # from flask_session import Session
 from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails
 
@@ -119,28 +119,38 @@ def homepage():
 # } 
 
 
-@app.route("/", methods=["GET", "POST"])
-async def run():
+@app.route("/user/<gameName>/<tagLine>/<server>")
+async def index(gameName, tagLine, server):
+    
+    print(gameName)
+    print(tagLine)
+    
+    profile_info = getPuuid(gameName, tagLine)
+    
+    print(profile_info)
+    match_ids = getMatchList(server, profile_info["puuid"])
+    
+    #Does the async call concurrently
+    async with aiohttp.ClientSession() as session:
+        
+        tasks = [getMatchDetails(session, server, match_id) for match_id in match_ids]
+        results = await asyncio.gather(*tasks)
+        
+    return (results)
+
+@app.route("/", methods = ["GET", "POST"])
+def search():
     if request.method == "POST":
-        # gameName = request.args.get("gameName")
-        # tagLine = request.args.get("tagLine")
-        # server = request.args.get("server")
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
         
-        profile_info = getPuuid(gameName, tagLine)
-        match_ids = getMatchList(server, profile_info["puuid"])
+        # gameName = request.args.get("gameName")
+        # tagLine = request.args.get("tagLine")
+        # server = request.args.get("server")
         
-        #Does the async call concurrently
-        async with aiohttp.ClientSession() as session:
-            
-            tasks = [getMatchDetails(session, server, match_id) for match_id in match_ids]
-            results = await asyncio.gather(*tasks)
-            
-        return (results)
-    else:
-        return render_template("search.html")
+        return redirect(url_for('index', gameName=gameName, tagLine=tagLine, server=server))
+    return render_template("search.html")
             
 
 

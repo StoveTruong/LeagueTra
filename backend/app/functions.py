@@ -70,7 +70,7 @@ def getPuuid(gameName, tagLine):
     
     #Fail or I can return the error code
     else:
-        return errors(f'Error: {response.status_code}')
+        return print(f'Error: {response.status_code}')
     
     
 def getMatchList(server, puuid):
@@ -99,6 +99,8 @@ async def getMatchDetails(session, server, matchid):
     async with session.get(url, headers=headers) as response:
         if response.status == 200:
             return await response.json()
+            #data = await response.json()
+        
         else:
             data = await response.json()
             if 'status' in data:
