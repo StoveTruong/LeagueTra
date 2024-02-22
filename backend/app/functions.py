@@ -88,6 +88,9 @@ def getMatchList(server, puuid):
         if 'status' in data:
             return print(f"1) Error with {server} and {puuid}")
 
+
+#Edit returns so that you get... 
+# kills, death, cs, duration, 
 async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}

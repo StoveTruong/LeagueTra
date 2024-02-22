@@ -124,6 +124,7 @@ async def index(gameName, tagLine, server):
     
     print(gameName)
     print(tagLine)
+    print(server)
     
     profile_info = getPuuid(gameName, tagLine)
     
@@ -138,13 +139,16 @@ async def index(gameName, tagLine, server):
         
     return (results)
 
+# Just for flask backend testing
+
+
 @app.route("/", methods = ["GET", "POST"])
 def search():
     if request.method == "POST":
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
-        
+    
         # gameName = request.args.get("gameName")
         # tagLine = request.args.get("tagLine")
         # server = request.args.get("server")
@@ -156,10 +160,3 @@ def search():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    
-#Dont do redirects let react handle it. We can use it for now. Will remove html pages testing  for react 
-
-
-#Todo (steve):
-#Confirm python can take specific 
