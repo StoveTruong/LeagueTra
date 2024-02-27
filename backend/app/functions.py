@@ -133,6 +133,6 @@ async def processMatchDetails(response):
     }
  
     for partcipants in response["info"]["participants"]:
-        matchDetails["participants"].append(partcipants["allInPings"])
+        matchDetails["participants"].append(partcipants["champLevel"])
 
     return (matchDetails)
