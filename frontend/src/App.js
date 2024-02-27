@@ -1,19 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import SearchPageComponent from './compontents/search-page/search-page'
-//Cant use useState in conditions, loops, etc.
+import React, { useState, useEffect } from 'react';
+import ReactDOM from "react-dom/client";
+//Import component
+import SearchPageComponent from './compontents/search-page/search-page';
+import searchResult from './compontents/search-page/search-page';
+//Error page
+//Home Page
+//UserDisplayPage
+
+
+
 function App() {
+  const[searchResult, setSearchResult] = useState({});
+
 
   
 
 
   return (
-      <div>
-        {
-          <SearchPageComponent></SearchPageComponent>
-        }
-
-      </div>
-    )
+        <div>
+            <SearchPageComponent/>
+            <div className='searchResult'>
+              <p>{JSON.stringify(searchResult)}</p>
+              </div>
+          </div>
+        )
 }
 
 export default App
