@@ -2,6 +2,7 @@ import requests
 import datetime
 import asyncio
 import aiohttp
+import json
 
 from flask import Flask, request, redirect, render_template, session
 from functools import wraps
@@ -97,10 +98,15 @@ async def getMatchDetails(session, server, matchid):
     
     
     async with session.get(url, headers=headers) as response:
+        print(response)
         if response.status == 200:
-            return await response.json()
-        else:
             data = await response.json()
+            print(data)
+            matchData = processMatchDetails(data)
+            print(matchData)
+            return matchData
+        else:
+            data = response.json()
             if 'status' in data:
                 return print(f"1) Error with {server} and {matchid}")
 
@@ -118,3 +124,32 @@ def getSummonerDetails(server, puuid):
         data = response.json()
         if 'status' in data:
             return print(f"1) Error with {server} and {puuid}")
+
+
+def processMatchDetails(response):
+    #CODE HERE BOZO
+
+        #API_Data = response.json()
+        #print(json.dumps(API_Data, indent=4, sort_keys=True))
+        matchDetails = {
+            "matchId": "",  #NA1_4932994774
+            "gameDuration": [],
+            "participants": [],
+            "champLevel": "",
+            "championId": "",
+            "championName": ""
+        }
+        #print("This is Matchid" + " " + matchid)
+        matchDetails["matchId"].append(response["info"]["gameType"])
+
+
+        #Total seconds in the game
+        # calGameDuration = response["info"]["gameDuration"]
+        # minutes = calGameDuration // 60
+        # seconds = calGameDuration % 60
+        # calGameDuration = str(str(minutes) + ":" + str(seconds))
+        #matchDetails["gameDuration"].append(calGameDuration)
+        #print(matchDetails)
+        #print(calGameDuration)
+
+        return (matchDetails)
