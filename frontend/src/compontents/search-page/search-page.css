@@ -1,0 +1,125 @@
+/* Taking inspiration from google's search*/
+
+*{
+  background-color: transparent;
+}
+.searchPage{
+  margin: auto;
+  background-color: transparent;
+  padding: 10vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+}
+
+.searchBar-container {
+  margin:0 auto;
+  width:575px;
+  border-radius:30px;
+  border:1px solid #dcdcdc;
+  display: flex;
+  justify-content: center;
+  background-color: red;
+}
+
+.summonerSearchbar{
+  height:45px;
+  border:none;
+  width:500px;
+  font-size:16px;
+  outline: none;
+  padding-left: 20px;
+}
+
+input:focus {
+  outline: none;
+}
+
+
+.dropdown {
+  height:20px;
+  position:relative;
+  left:10px;
+}
+
+.dropdown-toggle {
+  border-radius: 0 30px 30px 0;
+  font-size: 16px;
+  padding: 12px 11px;
+  position: relative;
+  border: transparent;
+  background-color: aqua;
+  right: 5px;
+
+}
+
+.dropdown-menu .dropdown-item {
+  border-radius: 0 30px 30px 0;
+  padding: 10px 15x;
+  font-size: 16px;
+  background-color: green;
+}
+
+.serverIcon {
+  height:20px;
+  position:relative;
+  top:5px;
+}
+
+.selectedServer {
+  border:none;
+  font-size:16px;
+  outline: none;
+  background-color: brown;
+  margin: auto;
+}
+
+
+
+
+/* 
+
+
+
+
+.dropdown-toggle {
+  height:20px;
+  position:relative;
+  top:5px;
+  left:10px;
+}
+
+.dropdown-menu {
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+}
+
+.dropdown-menu .dropdown-item {
+  background-color: #0080FF;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  display: block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer; 
+  text-decoration: none; 
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  background-color: #e2e6ea;
+  color: #495057;
+
+
+
+  .searchForum{
+  margin:0 auto;
+  width:575px;
+  border-radius:30px;
+  border:1px solid #dcdcdc;
+}
+} */
