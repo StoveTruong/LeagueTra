@@ -166,14 +166,14 @@ async def processMatchDetails(response, puuid):
                 "win": [],
             }
         },
-        "mainPlayerIndex": [],
+        "myPlayerIndex": [],
         "metadata": {
             "matchId": [],
             "participants": [],
         }
 
     }
-    
+    # matchDetails["info"]
     matchDetails["info"]["gameCreation"].append(response["info"]["gameCreation"])
     matchDetails["info"]["gameDuration"].append(response["info"]["gameDuration"])
     matchDetails["info"]["gameEndTimestamp"].append(response["info"]["gameEndTimestamp"])
@@ -206,36 +206,22 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["puuid"].append(player["puuid"])
         matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
         matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
-
+    
     matchDetails["info"]["queueId"].append(response["info"]["queueId"])
 
     for player in response["info"]["teams"]:
         matchDetails["info"]["teams"]["teamId"].append(player["teamId"])
         matchDetails["info"]["teams"]["win"].append(player["win"])
 
+    # matchDetails["metadata"]
     matchDetails["metadata"]["matchId"].append(response["metadata"]["matchId"])
-    matchDetails["metadata"]["participants"].append(response["metadata"]["participants"])
+    for participant in response["metadata"]["participants"]:
+        matchDetails["metadata"]["participants"].append(participant)
 
-    # for myPlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
-    #     if puuidoflist == puuid:
-    #         print("myPlayerIndex = " + myPlayerIndex)
-    #         matchDetails["mainPlayerIndex"].append(myPlayerIndex)
-    # print("puuid: " + str(puuid))
-
-    print(str(response["metadata"]["matchId"]))
-    mainPlayerIndex = 0
-    for person in response["metadata"]["participants"]: # matchDetails["metadata"]["participants"]
-        if person == puuid: 
-            matchDetails["mainPlayerIndex"].append(mainPlayerIndex)
-            print("mainPlayerIndex = " + str(mainPlayerIndex))
-            pass
-        else:
-            mainPlayerIndex = mainPlayerIndex + 1
-    
-
-    
-    # cuc cho puuid: P-hjrqUHT4RVHAb2yet2EUAN_eNzvNtXjLfM3VxplKXMd40GC-X6SAlfHr7Tzv1nBBstH_VuinXDYQ
-    # Yøgu puuid: L1AbLFq47cdex-4nrItzxkj1mCftwL2O1SPRlY0Zt-qTvTGJdABXjncgVRBUy8NT7OiOiU1f5NscHw
+    #matchDetails["myPlayerIndex"]
+    for PlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
+        if puuidoflist == puuid:
+            matchDetails["myPlayerIndex"].append(PlayerIndex)
         
 
     return (matchDetails)

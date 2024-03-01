@@ -25,7 +25,8 @@ api call data is stored in response
 find player  
 organize by team order for return
 
-
+# cuc cho puuid: P-hjrqUHT4RVHAb2yet2EUAN_eNzvNtXjLfM3VxplKXMd40GC-X6SAlfHr7Tzv1nBBstH_VuinXDYQ
+# Yøgu puuid: L1AbLFq47cdex-4nrItzxkj1mCftwL2O1SPRlY0Zt-qTvTGJdABXjncgVRBUy8NT7OiOiU1f5NscHw
 
 
 
