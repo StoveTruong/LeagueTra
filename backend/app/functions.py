@@ -79,7 +79,7 @@ def getMatchList(server, puuid):
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
     
-    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&mainPlayerIndex=10"
+    url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10"
     response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
@@ -104,7 +104,7 @@ async def getMatchDetails(session, server, matchid, puuid):
             return matchData
         else:
             data = response.json()
-            if 'status' in data:
+            if 'status' in await data:
                 return print(f"1) Error with {server} and {matchid}")
 
 def getSummonerDetails(server, puuid):
@@ -156,7 +156,6 @@ async def processMatchDetails(response, puuid):
                 "participantId": [],
                 "physicalDamageDealtToChampions": [],
                 "physicalDamageTaken": [],
-                "profileIcon": [],
                 "puuid": [],
                 "riotIdGameName": [],
                 "riotIdTagline": [],
@@ -167,11 +166,11 @@ async def processMatchDetails(response, puuid):
                 "win": [],
             }
         },
+        "mainPlayerIndex": [],
         "metadata": {
             "matchId": [],
             "participants": [],
-        },
-        "mainPlayer": [],
+        }
 
     }
     
@@ -204,7 +203,6 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["magicDamageTaken"].append(player["magicDamageTaken"])
         matchDetails["info"]["participants"]["participantId"].append(player["participantId"])
         matchDetails["info"]["participants"]["physicalDamageDealtToChampions"].append(player["physicalDamageDealtToChampions"])
-        matchDetails["info"]["participants"]["profileIcon"].append(player["profileIcon"])
         matchDetails["info"]["participants"]["puuid"].append(player["puuid"])
         matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
         matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
@@ -218,16 +216,25 @@ async def processMatchDetails(response, puuid):
     matchDetails["metadata"]["matchId"].append(response["metadata"]["matchId"])
     matchDetails["metadata"]["participants"].append(response["metadata"]["participants"])
 
+    # for myPlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
+    #     if puuidoflist == puuid:
+    #         print("myPlayerIndex = " + myPlayerIndex)
+    #         matchDetails["mainPlayerIndex"].append(myPlayerIndex)
+    # print("puuid: " + str(puuid))
+
+    print(str(response["metadata"]["matchId"]))
     mainPlayerIndex = 0
-    for person in matchDetails["metadata"]["participants"]:
-        if person["puuid"] == puuid: 
+    for person in response["metadata"]["participants"]: # matchDetails["metadata"]["participants"]
+        if person == puuid: 
+            matchDetails["mainPlayerIndex"].append(mainPlayerIndex)
+            print("mainPlayerIndex = " + str(mainPlayerIndex))
             pass
         else:
             mainPlayerIndex = mainPlayerIndex + 1
-    print("mainPlayerIndex = " + mainPlayerIndex)
+    
 
     
-     # cuc cho puuid: P-hjrqUHT4RVHAb2yet2EUAN_eNzvNtXjLfM3VxplKXMd40GC-X6SAlfHr7Tzv1nBBstH_VuinXDYQ
+    # cuc cho puuid: P-hjrqUHT4RVHAb2yet2EUAN_eNzvNtXjLfM3VxplKXMd40GC-X6SAlfHr7Tzv1nBBstH_VuinXDYQ
     # Yøgu puuid: L1AbLFq47cdex-4nrItzxkj1mCftwL2O1SPRlY0Zt-qTvTGJdABXjncgVRBUy8NT7OiOiU1f5NscHw
         
 

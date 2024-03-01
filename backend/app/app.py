@@ -130,12 +130,12 @@ async def run():
         server = request.form.get("server")
         
         profile_info = getPuuid(gameName, tagLine)
-        match_ids = getMatchList(server, profile_info)
+        match_ids = getMatchList(server, profile_info["puuid"])
         
         #Does the async call concurrently
         async with aiohttp.ClientSession() as session:
             
-            tasks = [getMatchDetails(session, server, match_id, profile_info) for match_id in match_ids]
+            tasks = [getMatchDetails(session, server, match_id, profile_info["puuid"]) for match_id in match_ids]
             results = await asyncio.gather(*tasks)
             
         return (results)
