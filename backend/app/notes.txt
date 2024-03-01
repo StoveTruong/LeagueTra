@@ -22,7 +22,8 @@ code in functions.py line 101
 api call data is stored in response
     parse through response and collect necessary data
 
-
+find player  
+organize by team order for return
 
 
 
