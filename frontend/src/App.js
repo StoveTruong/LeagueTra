@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from "react-dom/client";
 //Import component
-import SearchPageComponent from './compontents/search-page/search-page';
-import searchResult from './compontents/search-page/search-page';
+//import matchDetailsComponent from './compontents/matchistory/gameHistory';
+import SearchPageComponent from './compontents/searchbar/searchbar';
 //Error page
-//Home Page
-//UserDisplayPage
 
 
 
-function App() {
-  const[searchResult, setSearchResult] = useState({});
+export default function App() {
 
-
-  
-
+  //return the component instead
+  const [searchResult, setSearchResult] = useState(null);
 
   return (
-        <div>
-            <SearchPageComponent/>
-            <div className='searchResult'>
-              <p>{JSON.stringify(searchResult)}</p>
-              </div>
-          </div>
-        )
+    <div className='App'>
+        <SearchPageComponent onSearch={setSearchResult}/>
+        <div className='searchResult'>
+          <p>Here is the data: {JSON.stringify(searchResult, null, 2)}</p>
+        </div>
+    </div>
+  );
 }
-
-export default App

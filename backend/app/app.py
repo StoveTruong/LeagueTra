@@ -122,9 +122,9 @@ def homepage():
 @app.route("/user/<gameName>/<tagLine>/<server>")
 async def index(gameName, tagLine, server):
     
-    print(gameName)
-    print(tagLine)
-    print(server)
+    # print(gameName)
+    # print(tagLine)
+    # print(server)
     
     profile_info = getPuuid(gameName, tagLine)
     
@@ -136,7 +136,6 @@ async def index(gameName, tagLine, server):
         
         tasks = [getMatchDetails(session, server, match_id) for match_id in match_ids]
         results = await asyncio.gather(*tasks)
-        
     return (results)
 
 # Just for flask backend testing
