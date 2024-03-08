@@ -2,6 +2,7 @@ import requests
 import datetime
 import asyncio
 import aiohttp
+import json
 
 from flask import Flask, request, redirect, render_template, session
 from functools import wraps
@@ -100,12 +101,20 @@ async def getMatchDetails(session, server, matchid):
     
     
     async with session.get(url, headers=headers) as response:
+        print(response)
         if response.status == 200:
             return await response.json()
             #data = await response.json()
         
         else:
             data = await response.json()
+            
+            
+            
+            matchData = await processMatchDetails(data)
+            return matchData
+        else:
+            data = response.json()
             if 'status' in data:
                 return print(f"1) Error with {server} and {matchid}")
 
@@ -123,3 +132,14 @@ def getSummonerDetails(server, puuid):
         data = response.json()
         if 'status' in data:
             return print(f"1) Error with {server} and {puuid}")
+
+
+async def processMatchDetails(response):
+    matchDetails = {
+        "participants": []
+    }
+ 
+    for partcipants in response["info"]["participants"]:
+        matchDetails["participants"].append(partcipants["champLevel"])
+
+    return (matchDetails)
