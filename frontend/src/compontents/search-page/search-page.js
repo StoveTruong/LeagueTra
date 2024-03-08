@@ -74,7 +74,6 @@ export default function SearchPageComponent() {
             <div className='selectedServer'>{selectedServer.toUpperCase()}</div>
           <Dropdown onSelect={(eventKey) => setSelectedServer(eventKey)}>
             <Dropdown.Toggle variant='success' id= "dropdown-servers" className='dropdown-toggle' >
-
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item eventKey="na">NA</Dropdown.Item>

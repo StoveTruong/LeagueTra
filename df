@@ -1,0 +1,128 @@
+                    *   [33m4ded8a9b[m[33m ([m[1;35mrefs/stash[m[33m)[m On matchDisplay: merging branches
+[31m|[m[32m\[m  
+[31m|[m * [33mdaba69f1[m index on matchDisplay: 69e770d3 working on dropdown feature
+[31m|[m[31m/[m  
+* [33m69e770d3[m[33m ([m[1;36mHEAD -> [m[1;32mmatchDisplay[m[33m, [m[1;31morigin/matchDisplay[m[33m, [m[1;31morigin/HomePage[m[33m)[m working on dropdown feature
+* [33mcbff2cf4[m Working on dropdown css. dropdown does not dropdown
+* [33mb0d6e709[m Updated compontents folder
+* [33ma1f30cf3[m Working on matchhistory compontent
+*   [33m76a5e114[m working on CSS for searching page
+[33m|[m[34m\[m  
+* [34m|[m [33mffb960f0[m seperated endpoints
+[34m|[m [34m|[m *   [33m54e37534[m[33m ([m[1;31morigin/searchPage[m[33m)[m Merge branch 'main' of https://github.com/StoveTruong/ValTra into searchPage
+[34m|[m [34m|[m [35m|[m[36m\[m  
+[34m|[m [34m|[m [35m|[m [36m|[m * [33me416b08c[m[33m ([m[1;31morigin/matchformat[m[33m, [m[1;32mmatchformat[m[33m)[m adjusted lines in function
+[34m|[m [34m|[m [35m|[m [36m|[m * [33me2976368[m Please review line 107 and 130-138
+[34m|[m [34m|[m [35m|[m [36m|[m * [33m93538d15[m working on processMatchDetials
+[34m|[m [34m|[m [35m|[m [36m|[m * [33mc2e4969d[m Merge branch 'main' of https://github.com/StoveTruong/LeagueTra into matchFormat
+[34m|[m [34m|[m [35m|[m [36m|[m[35m/[m[36m|[m 
+[34m|[m [34m|[m [35m|[m[35m/[m[36m|[m[36m/[m  
+[34m|[m [34m|[m [35m|[m *   [33m2514197f[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #8 from StoveTruong/homePage
+[34m|[m [34m|[m [35m|[m [1;34m|[m[34m\[m  
+[34m|[m [34m|[m[34m_[m[35m|[m[34m_[m[1;34m|[m[34m/[m  
+[34m|[m[34m/[m[34m|[m [35m|[m [1;34m|[m   
+* [34m|[m [35m|[m [1;34m|[m [33mf8f9acf4[m completed async call, adjusted getMatchDetails to 10 matches instead of 20
+* [34m|[m [35m|[m [1;34m|[m [33ma3a609c3[m completed async call, adjusted getMatchDetails to 10 matches instead of 20
+* [34m|[m [35m|[m [1;34m|[m   [33mfbb5f72f[m Adjusted function name summonerdetails, updated the async def getMatchDetails(). Fixing the for loop in app.py
+[1;36m|[m[1;34m\[m [34m\[m [35m\[m [1;34m\[m  
+[1;36m|[m [1;34m|[m [34m|[m[1;34m_[m[35m|[m[1;34m/[m  
+[1;36m|[m [1;34m|[m[1;34m/[m[34m|[m [35m|[m   
+[1;36m|[m * [34m|[m [35m|[m   [33m297bcfe7[m Merge pull request #6 from StoveTruong/summProfile
+[1;36m|[m [32m|[m[33m\[m [34m\[m [35m\[m  
+[1;36m|[m [32m|[m * [34m|[m [35m|[m [33m0502e0ac[m[33m ([m[1;31morigin/summProfile[m[33m)[m created summoner_profile function, cleaned up get_region and get_server variables.
+[1;36m|[m [32m|[m[32m/[m [34m/[m [35m/[m  
+* [32m|[m [34m|[m [35m|[m [33m07868497[m Completed Async call adjusted names of function.py
+* [32m|[m [34m|[m [35m|[m [33m5bb205a8[m Renamed functions in fun.py, split the api calls into multi sections, working on async calls
+* [32m|[m [34m|[m [35m|[m [33m926cb1a3[m Working on retrieving data from flask
+[33m|[m [32m|[m [34m|[m * [33m38ce85d0[m Made search include a region select
+[33m|[m [32m|[m [34m|[m[34m/[m  
+[33m|[m [32m|[m * [33mc99f78e8[m[33m ([m[1;32msearchPage[m[33m)[m Connect front-end to back-end and performed API call
+[33m|[m [32m|[m *   [33m8afe2211[m Merge branch 'main' of https://github.com/StoveTruong/ValTra into searchPage
+[33m|[m [32m|[m [34m|[m[32m\[m  
+[33m|[m [32m|[m [34m|[m[32m/[m  
+[33m|[m [32m|[m[32m/[m[34m|[m   
+[33m|[m * [34m|[m   [33me18a8d72[m Merge pull request #5 from StoveTruong/ReturnList
+[33m|[m [36m|[m[33m\[m [34m\[m  
+[33m|[m [36m|[m[33m/[m [34m/[m  
+[33m|[m[33m/[m[36m|[m [34m|[m   
+* [36m|[m [34m|[m [33m7f2613b8[m[33m ([m[1;31morigin/ReturnList[m[33m, [m[1;32mReturnList[m[33m)[m Updated returns
+* [36m|[m [34m|[m [33mbbdfa267[m Functioning return dictionary
+* [36m|[m [34m|[m [33m0066a049[m Return champion name and username of other players
+[36m|[m[36m/[m [34m/[m  
+[36m|[m *   [33me71608d8[m Merge branch 'main' of https://github.com/StoveTruong/ValTra into searchPage
+[36m|[m [1;32m|[m[36m\[m  
+[36m|[m [1;32m|[m[36m/[m  
+[36m|[m[36m/[m[1;32m|[m   
+* [1;32m|[m   [33m98c785db[m Merge pull request #4 from StoveTruong/APIcall
+[1;34m|[m[1;35m\[m [1;32m\[m  
+[1;34m|[m [1;35m|[m * [33m385fa412[m Created barebones search page
+[1;34m|[m [1;35m|[m [1;35m|[m *   [33me06c7b7b[m[33m ([m[1;31morigin/dataDragon[m[33m, [m[1;31morigin/APIcall[m[33m)[m Merge branch 'APIcall' of https://github.com/StoveTruong/LeagueTra into APIcall
+[1;34m|[m [1;35m|[m [1;35m|[m [1;36m|[m[1;35m\[m  
+[1;34m|[m [1;35m|[m [1;35m|[m[1;35m_[m[1;36m|[m[1;35m/[m  
+[1;34m|[m [1;35m|[m[1;35m/[m[1;35m|[m [1;36m|[m   
+[1;34m|[m * [1;35m|[m [1;36m|[m [33m296b9c67[m Removing flask sessions
+[1;34m|[m * [1;35m|[m [1;36m|[m [33m8a76e595[m Updated gitignore 29-30
+[1;34m|[m * [1;35m|[m [1;36m|[m [33meb8a39ed[m completed return list
+[1;34m|[m [31m|[m [1;35m|[m *   [33m455bc1a0[m Merge branch 'APIcall' of https://github.com/StoveTruong/LeagueTra into APIcall
+[1;34m|[m [31m|[m [1;35m|[m [32m|[m[31m\[m  
+[1;34m|[m [31m|[m [1;35m|[m[31m_[m[32m|[m[31m/[m  
+[1;34m|[m [31m|[m[31m/[m[1;35m|[m [32m|[m   
+[1;34m|[m * [1;35m|[m [32m|[m [33m53322cf8[m Working on getting correct PUUID
+[1;34m|[m * [1;35m|[m [32m|[m [33ma8fb430d[m Dictionary to return to frontend
+[1;34m|[m * [1;35m|[m [32m|[m [33me158182b[m Specific match data retrieved
+[1;34m|[m * [1;35m|[m [32m|[m [33m8c7ac040[m finished player look up + match history look up. working on match specific details
+[1;34m|[m * [1;35m|[m [32m|[m [33m4133ac59[m working search html. working on result page
+[1;34m|[m * [1;35m|[m [32m|[m [33m004daf0f[m changes to def profile
+[1;34m|[m * [1;35m|[m [32m|[m [33m6f65b558[m Created HTML test pages to ensure api calls work properly. HTML not sync with backend variables
+[1;34m|[m * [1;35m|[m [32m|[m [33m030592a1[m Created a progresslog, created API calls for matchhistory and for specifics matches, worked on the search def to ensure the puuid is called
+[1;34m|[m [33m|[m [1;35m|[m *   [33m779c5cbe[m Merge branch 'APIcall' of https://github.com/StoveTruong/LeagueTra into APIcall
+[1;34m|[m [33m|[m [1;35m|[m [34m|[m[33m\[m  
+[1;34m|[m [33m|[m [1;35m|[m[33m_[m[34m|[m[33m/[m  
+[1;34m|[m [33m|[m[33m/[m[1;35m|[m [34m|[m   
+[1;34m|[m * [1;35m|[m [34m|[m [33m7b0ff17d[m Commented out summoner call due to return not providing a list. Waiting for response from API team. Completed server selection.
+[1;34m|[m [35m|[m [1;35m|[m * [33meaf049df[m Merge branch 'APIcall' of https://github.com/StoveTruong/LeagueTra into APIcall
+[1;34m|[m [35m|[m[1;34m_[m[1;35m|[m[1;34m/[m[35m|[m 
+[1;34m|[m[1;34m/[m[35m|[m [1;35m|[m[35m/[m  
+[1;34m|[m [35m|[m[35m/[m[1;35m|[m   
+[1;34m|[m * [1;35m|[m [33m4fac66ec[m Created region checker and adjust function name from league_api to summoner_call
+[1;34m|[m * [1;35m|[m [33m3d00b7cb[m Starting API Calls, updated gitignores
+* [1;31m|[m [1;35m|[m [33m5d5ed20f[m Merge pull request #3 from StoveTruong/SearchCases
+[1;35m|[m[1;31m\[m[1;31m|[m [1;35m|[m 
+[1;35m|[m [1;31m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;31m|[m   
+[1;35m|[m * [33m61be51dd[m[33m ([m[1;31morigin/SearchCases[m[33m)[m Completed def error, starting on search cases
+[1;35m|[m * [33m16bab49d[m Completed error calls, working on searchcases
+[1;35m|[m[1;35m/[m  
+* [33m02a9092c[m 12/11/2023 push
+* [33m38d6bd3f[m Functions and requirement txt
+*   [33m73c036ee[m Merge pull request #2 from StoveTruong/setupFrontend
+[1;34m|[m[1;35m\[m  
+[1;34m|[m *   [33m9dee9e28[m[33m ([m[1;31morigin/setupFrontend[m[33m)[m Merge branch 'main' into setupFrontend
+[1;34m|[m [1;36m|[m[1;34m\[m  
+[1;34m|[m [1;36m|[m[1;34m/[m  
+[1;34m|[m[1;34m/[m[1;36m|[m   
+* [1;36m|[m   [33md221db18[m Merge branch 'main' of https://github.com/StoveTruong/ValTra
+[32m|[m[33m\[m [1;36m\[m  
+[32m|[m * [1;36m|[m [33md3e40cf7[m corrected gitignore for node_modules
+* [33m|[m [1;36m|[m [33mac56676f[m Connect backend to frontend
+[33m|[m[33m/[m [1;36m/[m  
+[33m|[m * [33m910c7e6c[m removed config.py
+[33m|[m * [33m31801a2e[m I was dumb and put the wrong file lol
+[33m|[m * [33m2812ddf5[m gitignore for config.py
+[33m|[m[33m/[m  
+* [33mc8686079[m test
+*   [33mf1082b09[m correct routes
+[34m|[m[35m\[m  
+[34m|[m *   [33me93d966b[m[33m ([m[1;31morigin/doNotCarryChangesBranch[m[33m, [m[1;31morigin/carryChangesBranch[m[33m)[m Merge pull request #1 from StoveTruong/apiCall
+[34m|[m [36m|[m[1;31m\[m  
+[34m|[m [36m|[m * [33m40a2e822[m Pull Request Demo
+[34m|[m [36m|[m[36m/[m  
+* [36m/[m [33me587450d[m Correct routes.py
+[36m|[m[36m/[m  
+* [33maef6311d[m[33m ([m[1;31morigin/testing[m[33m)[m Added node modules to .gitignore + remove node modules from repo
+* [33m8c7b2c4b[m Update README.md
+* [33m0974c107[m .git/COMMIT_EDITMSG [unix] (21:28 06/12/2023)            enter the commit message for your changes. Lines starting .git/COMMIT_EDITMSG [unix] (21:28 06/12/2023)            	new file:   valorant-tracker/repo
+*   [33m1ef87f15[m Merge branch 'main' of https://github.com/StoveTruong/ValTra
+[1;32m|[m[1;33m\[m  
+[1;32m|[m * [33m846a93bb[m Initial commit
+* [33m1051cc92[m Initial commit
