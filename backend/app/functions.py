@@ -71,7 +71,7 @@ def getPuuid(gameName, tagLine):
     
     #Fail or I can return the error code
     else:
-        return errors(f'Error: {response.status_code}')
+        return print(f'Error: {response.status_code}')
     
     
 def getMatchList(server, puuid):
@@ -89,7 +89,7 @@ def getMatchList(server, puuid):
         if 'status' in data:
             return print(f"1) Error with {server} and {puuid}")
 
-async def getMatchDetails(session, server, matchid):
+async def getMatchDetails(session, server, matchid, puuid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
@@ -98,17 +98,13 @@ async def getMatchDetails(session, server, matchid):
     
     
     async with session.get(url, headers=headers) as response:
-        print(response)
         if response.status == 200:
             data = await response.json()
-            
-            
-            
-            matchData = await processMatchDetails(data)
+            matchData = await processMatchDetails(data, puuid)
             return matchData
         else:
             data = response.json()
-            if 'status' in data:
+            if 'status' in await data:
                 return print(f"1) Error with {server} and {matchid}")
 
 def getSummonerDetails(server, puuid):
@@ -127,12 +123,105 @@ def getSummonerDetails(server, puuid):
             return print(f"1) Error with {server} and {puuid}")
 
 
-async def processMatchDetails(response):
+async def processMatchDetails(response, puuid):
+   
     matchDetails = {
-        "participants": []
+        "info": {
+            "gameCreation": [],
+            "gameDuration": [],
+            "gameEndTimestamp": [],
+            "gameId": [],
+            "gameStartTimestamp": [],
+            "gameVersion": [],
+            "participants": {
+                "assists": [],
+                "champLevel": [],
+                "championId": [],
+                "championName": [],
+                "deaths":[],
+                "goldEarned": [],
+                "item0": [],
+                "item1": [],
+                "item2": [],
+                "item3": [],
+                "item4": [],
+                "item5": [],
+                "item6": [],
+                "kills": [],
+                "lane": [],
+                "largestKillingSpree": [],
+                "largestMultiKill": [],
+                "magicDamageDealtToChampions": [],
+                "magicDamageTaken": [],
+                "participantId": [],
+                "physicalDamageDealtToChampions": [],
+                "physicalDamageTaken": [],
+                "puuid": [],
+                "riotIdGameName": [],
+                "riotIdTagline": [],
+                },
+            "queueId": [], #rank, norms, aram
+            "teams":{
+                "teamId": [],
+                "win": [],
+            }
+        },
+        "myPlayerIndex": [],
+        "metadata": {
+            "matchId": [],
+            "participants": [],
+        }
+
     }
- 
-    for partcipants in response["info"]["participants"]:
-        matchDetails["participants"].append(partcipants["champLevel"])
+    # matchDetails["info"]
+    matchDetails["info"]["gameCreation"].append(response["info"]["gameCreation"])
+    matchDetails["info"]["gameDuration"].append(response["info"]["gameDuration"])
+    matchDetails["info"]["gameEndTimestamp"].append(response["info"]["gameEndTimestamp"])
+    matchDetails["info"]["gameId"].append(response["info"]["gameId"])
+    matchDetails["info"]["gameStartTimestamp"].append(response["info"]["gameStartTimestamp"])
+    matchDetails["info"]["gameVersion"].append(response["info"]["gameVersion"])
+
+    for player in response["info"]["participants"]:
+        matchDetails["info"]["participants"]["assists"].append(player["assists"])
+        matchDetails["info"]["participants"]["champLevel"].append(player["champLevel"])
+        matchDetails["info"]["participants"]["championId"].append(player["championId"])
+        matchDetails["info"]["participants"]["championName"].append(player["championName"])
+        matchDetails["info"]["participants"]["deaths"].append(player["deaths"])
+        matchDetails["info"]["participants"]["goldEarned"].append(player["goldEarned"])
+        matchDetails["info"]["participants"]["item0"].append(player["item0"])
+        matchDetails["info"]["participants"]["item1"].append(player["item1"])
+        matchDetails["info"]["participants"]["item2"].append(player["item2"])
+        matchDetails["info"]["participants"]["item3"].append(player["item3"])
+        matchDetails["info"]["participants"]["item4"].append(player["item4"])
+        matchDetails["info"]["participants"]["item5"].append(player["item5"])
+        matchDetails["info"]["participants"]["item6"].append(player["item6"])
+        matchDetails["info"]["participants"]["kills"].append(player["kills"])
+        matchDetails["info"]["participants"]["lane"].append(player["lane"])
+        matchDetails["info"]["participants"]["largestKillingSpree"].append(player["largestKillingSpree"])
+        matchDetails["info"]["participants"]["largestMultiKill"].append(player["largestMultiKill"])
+        matchDetails["info"]["participants"]["magicDamageDealtToChampions"].append(player["magicDamageDealtToChampions"])
+        matchDetails["info"]["participants"]["magicDamageTaken"].append(player["magicDamageTaken"])
+        matchDetails["info"]["participants"]["participantId"].append(player["participantId"])
+        matchDetails["info"]["participants"]["physicalDamageDealtToChampions"].append(player["physicalDamageDealtToChampions"])
+        matchDetails["info"]["participants"]["puuid"].append(player["puuid"])
+        matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
+        matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
+    
+    matchDetails["info"]["queueId"].append(response["info"]["queueId"])
+
+    for player in response["info"]["teams"]:
+        matchDetails["info"]["teams"]["teamId"].append(player["teamId"])
+        matchDetails["info"]["teams"]["win"].append(player["win"])
+
+    # matchDetails["metadata"]
+    matchDetails["metadata"]["matchId"].append(response["metadata"]["matchId"])
+    for participant in response["metadata"]["participants"]:
+        matchDetails["metadata"]["participants"].append(participant)
+
+    #matchDetails["myPlayerIndex"]
+    for PlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
+        if puuidoflist == puuid:
+            matchDetails["myPlayerIndex"].append(PlayerIndex)
+        
 
     return (matchDetails)
