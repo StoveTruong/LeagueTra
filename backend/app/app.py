@@ -11,6 +11,7 @@ app = Flask(__name__, template_folder= 'htmlpagetesting')
 # app.config["SESSION_PERMANENT"] = False
 # app.config["SESSION_TYPE"] = "filesystem"
 # Session(app)
+listOfErrors = [400, 401, 403, 404, 405, 500, 502, 503, 504]
 
 
 #Testing
@@ -118,29 +119,42 @@ def homepage():
 #     }
 # } 
 
-
-@app.route("/", methods=["GET", "POST"])
+# Gave the endpoint a name because having a blank endpoint is asking it to get called on whenever we load in
+@app.route("/getFullInfo", methods=["GET"])
 async def run():
-    if request.method == "POST":
-        # gameName = request.args.get("gameName")
-        # tagLine = request.args.get("tagLine")
-        # server = request.args.get("server")
-        gameName = request.form.get("gameName")
-        tagLine = request.form.get("tagLine")
-        server = request.form.get("server")
+    # if request.method == "GET":
+    gameName = request.args.get("gameName")
+    tagLine = request.args.get("tagLine")
+    server = request.args.get("server")
+
+    # Commented this out because this was relying on the search.html from the backend
+    # No need to render html from backend, defeats purpose of frontend at that rate
+    # gameName = request.form.get("gameName")
+    # tagLine = request.form.get("tagLine")
+    # server = request.form.get("server")
+
+    PlayerProfile = getPuuid(gameName, tagLine)
+
+    # We send the PlayerProfile to frontend because it contains the error status code and the message
+    # Let the frontend process the error and display the appropriate page
+    if(PlayerProfile["status"]["status_code"] in listOfErrors):
+        return (PlayerProfile)
+
+    MatchIds = getMatchList(server, PlayerProfile["puuid"])
+    if(MatchIds["status"]["status_code"] in listOfErrors):
+        return (MatchIds)
+    
+    #Does the async call concurrently
+    async with aiohttp.ClientSession() as session:
         
-        profile_info = getPuuid(gameName, tagLine)
-        match_ids = getMatchList(server, profile_info["puuid"])
+        tasks = [getMatchDetails(session, server, match_id) for match_id in match_ids['arrayOfIds']]
+        results = await asyncio.gather(*tasks)
         
-        #Does the async call concurrently
-        async with aiohttp.ClientSession() as session:
-            
-            tasks = [getMatchDetails(session, server, match_id) for match_id in match_ids]
-            results = await asyncio.gather(*tasks)
-            
-        return (results)
-    else:
-        return render_template("search.html")
+    return (results)
+    
+    # If we are relying on frontend for UI, no need to render an html page if it's not an HTTP Request
+    # else:
+    #     return render_template("search.html")
             
 
 

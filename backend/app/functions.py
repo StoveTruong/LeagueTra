@@ -7,7 +7,8 @@ from flask import Flask, request, redirect, render_template, session
 from functools import wraps
 from config import API_KEY
 
-
+from model.PlayerProfile import PlayerProfile
+from model.MatchIds import MatchIds
 
 #Base url
 base_server = {
@@ -37,22 +38,12 @@ def get_region(server):
     elif server =='sg':
         return 'sea'
 
-
-# May not need this because all data is being render at the same time.
-# def username_required(f):
-#     """
-#     Decorate routes to require username to access features
-    
-#     https://flask.palletsprojects.com/en/3.0.x/patterns/viewdecorators/
-#     """
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         if session.get("username") is None:
-#             return redirect ("/lookup")
-#         return f(*args, **kwargs)
-#     return decorated_function
-
 def getPuuid(gameName, tagLine):
+    """
+    Retrieves player profile given Game Name and Tag Line \n
+    Returns a dictionary of PlayerProfile
+    """
+
     #API authentication 
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
@@ -62,18 +53,25 @@ def getPuuid(gameName, tagLine):
     #Reponse from server
     response = requests.get(url, headers=headers)
     
-    #Success
-    if response.status_code == 200:
-        #Need to adjust so that it returns
-        data = response.json() 
-        return data
-    
-    #Fail or I can return the error code
-    else:
-        return errors(f'Error: {response.status_code}')
-    
+    # Return the Player Profile regardless of what the status is
+    # We error handle on the main function and send to front end
+    if('status' in response.json()):
+        PlayerProfile["status"]["status_code"] = response.status_code
+        PlayerProfile["status"]["message"] = response.json()["status"]["message"]
+        return PlayerProfile
+
+    PlayerProfile["puuid"] = response.json()["puuid"]
+    PlayerProfile["gameName"] = response.json()["gameName"]
+    PlayerProfile["tagLine"] = response.json()["tagLine"]
+
+    return PlayerProfile
     
 def getMatchList(server, puuid):
+    """
+    Retrieves an array of match ids given server and puuid \n
+    Returns a dictionary of MatchIds
+    """
+
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
     selected_region = get_region(server)
@@ -81,12 +79,14 @@ def getMatchList(server, puuid):
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10"
     response = requests.get(url, headers=headers)
     
-    if response.status_code == 200:
-        return response.json()
-    else:
-        data = response.json()
-        if 'status' in data:
-            return print(f"1) Error with {server} and {puuid}")
+    if('status' in response.json()):
+        MatchIds["status"]["status_code"] = response.status_code
+        MatchIds["status"]["message"] = response.json()["status"]["message"]
+        return MatchIds
+    
+    MatchIds['arrayOfIds'] = response.json()
+
+    return MatchIds
 
 async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
@@ -94,7 +94,6 @@ async def getMatchDetails(session, server, matchid):
     selected_region = get_region(server)
     
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/{matchid}"
-    
     
     async with session.get(url, headers=headers) as response:
         if response.status == 200:
