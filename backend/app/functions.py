@@ -113,10 +113,6 @@ async def getMatchDetails(session, server, matchid):
             
             matchData = await processMatchDetails(data)
             return matchData
-        else:
-            data = response.json()
-            if 'status' in data:
-                return print(f"1) Error with {server} and {matchid}")
 
 def getSummonerDetails(server, puuid):
     api_key = API_KEY
