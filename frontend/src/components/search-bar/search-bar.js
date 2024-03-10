@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useNavigate } from "react-router-dom";
 import './search-bar.css'
 
-export default function SearchPageComponent() {
+export default function SearchBarComponent() {
   const listOfErrors = [400, 401, 403, 404, 405, 500, 502, 503, 504];
   const getFullPlayerUrl = '/getFullInfo';
 
@@ -44,7 +44,10 @@ export default function SearchPageComponent() {
       .then(response => response.json())
       .then(json => {
         if(listOfErrors.includes(json['status']['status_code']))
-          navigate('/error');
+          navigate('/error', { state: {
+              status_code: json['status']['status_code'],
+              message: json['status']['message']
+            } });
         setSearchResult(json)
       })
       .catch(error => console.error(error));

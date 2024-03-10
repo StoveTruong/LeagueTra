@@ -1,3 +1,15 @@
-.errorPageContainer {
-    
+.noResultsMessageContainer {
+  margin: 60px auto 0px auto;
+  width: 50%;
+
+  color: #FFF;
+  font-family: '__Roboto_5b92f9','__Roboto_Fallback_5b92f9',sans-serif,system-ui,sans-serif;
+  text-align: center;
+}
+
+.riotApiErrorMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-wrap: wrap;
 }
