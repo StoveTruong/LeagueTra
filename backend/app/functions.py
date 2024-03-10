@@ -7,6 +7,8 @@ from flask import Flask, request, redirect, render_template, session
 from functools import wraps
 from config import API_KEY
 
+# Created these under 'model' directory
+# Imported them here so we don't have everything clustered into one file
 from model.PlayerProfile import PlayerProfile
 from model.MatchIds import MatchIds
 
@@ -79,6 +81,7 @@ def getMatchList(server, puuid):
     url = f"https://{selected_region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=10"
     response = requests.get(url, headers=headers)
     
+    # Same case here from 'getPuuid'
     if('status' in response.json()):
         MatchIds["status"]["status_code"] = response.status_code
         MatchIds["status"]["message"] = response.json()["status"]["message"]
@@ -88,6 +91,7 @@ def getMatchList(server, puuid):
 
     return MatchIds
 
+# I will leave the rest of functionallity orgainzation to other developers
 async def getMatchDetails(session, server, matchid):
     api_key = API_KEY
     headers = {"X-Riot-Token" : api_key}
