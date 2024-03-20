@@ -39,20 +39,6 @@ def get_region(server):
         return 'sea'
 
 
-# May not need this because all data is being render at the same time.
-# def username_required(f):
-#     """
-#     Decorate routes to require username to access features
-    
-#     https://flask.palletsprojects.com/en/3.0.x/patterns/viewdecorators/
-#     """
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         if session.get("username") is None:
-#             return redirect ("/lookup")
-#         return f(*args, **kwargs)
-#     return decorated_function
-
 def getPuuid(gameName, tagLine):
     #API authentication 
     api_key = API_KEY
@@ -222,6 +208,7 @@ async def processMatchDetails(response, puuid):
     for PlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
         if puuidoflist == puuid:
             matchDetails["myPlayerIndex"].append(PlayerIndex)
+            break
         
 
     return (matchDetails)

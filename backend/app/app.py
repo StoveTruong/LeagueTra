@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 
 from config import API_KEY
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 # from flask_session import Session
 from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails
 
@@ -119,30 +119,42 @@ def homepage():
 # } 
 
 
+@app.route("/getFullInfo?<gameName>/<tagLine>/<server>")
+async def index(gameName, tagLine, server):
+    # print(gameName)
+    # print(tagLine)
+    # print(server)
+    
+    profile_info = getPuuid(gameName, tagLine)
+    
+    print(profile_info)
+    match_ids = getMatchList(server, profile_info["puuid"])
+    
+    #Does the async call concurrently
+    async with aiohttp.ClientSession() as session:
+        
+        tasks = [getMatchDetails(session, server, match_id, profile_info["puuid"]) for match_id in match_ids]
+        results = await asyncio.gather(*tasks)
+        
+    return (results)
+
+# Just for flask backend testing
+
+
 @app.route("/", methods=["GET", "POST"])
-async def run():
+def search():
     if request.method == "POST":
-        # gameName = request.args.get("gameName")
-        # tagLine = request.args.get("tagLine")
-        # server = request.args.get("server")
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
+    
+        # gameName = request.args.get("gameName")
+        # tagLine = request.args.get("tagLine")
+        # server = request.args.get("server")
         
-        profile_info = getPuuid(gameName, tagLine)
-        match_ids = getMatchList(server, profile_info["puuid"])
-        
-        #Does the async call concurrently
-        async with aiohttp.ClientSession() as session:
+        return redirect(url_for('index', gameName=gameName, tagLine=tagLine, server=server))
+    return render_template("search.html")
             
-            tasks = [getMatchDetails(session, server, match_id, profile_info["puuid"]) for match_id in match_ids]
-            results = await asyncio.gather(*tasks)
-            
-        return (results)
-    else:
-        return render_template("search.html")
-            
-
 
 if __name__ == "__main__":
     app.run(debug=True)
