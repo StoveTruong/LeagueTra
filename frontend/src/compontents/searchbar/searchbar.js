@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import './search-page.css'
+import './searchbar.css'
 
 export default function SearchPageComponent() {
   const getFullPlayerUrl = '/getFullInfo';
@@ -32,8 +32,13 @@ export default function SearchPageComponent() {
 
     // const urlParams = `gameName=${_gameName}&tagLine=${_tagLine}&server=${selectedRegion.toLowerCase()}`;
 
+
+
+
     const urlParams = `${_gameName}/${_tagLine}/${selectedRegion.toLowerCase()}`;
-    const finalUrl = getFullPlayerUrl + '?' + urlParams;
+    const finalUrl = `/getFullInfo/${urlParams}`;
+    
+
     const requestOptions = {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
