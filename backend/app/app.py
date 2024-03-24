@@ -12,7 +12,7 @@ app = Flask(__name__, template_folder= 'htmlpagetesting')
 # app.config["SESSION_TYPE"] = "filesystem"
 # Session(app)
 
-@app.route("/getFullInfo/<gameName>/<tagLine>/<server>")
+@app.route("/summoner/<gameName>/<tagLine>/<server>")
 async def index(gameName, tagLine, server):
     # print(gameName)
     # print(tagLine)
@@ -40,10 +40,6 @@ def search():
         gameName = request.form.get("gameName")
         tagLine = request.form.get("tagLine")
         server = request.form.get("server")
-    
-        # gameName = request.args.get("gameName")
-        # tagLine = request.args.get("tagLine")
-        # server = request.args.get("server")
         
         return redirect(url_for('index', gameName=gameName, tagLine=tagLine, server=server))
     return render_template("search.html")

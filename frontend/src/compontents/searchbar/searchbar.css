@@ -1,4 +1,78 @@
-.searchPageContainer {
+*{
+  background-color: white;
+}
+
+.searchBar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  width: 500px;
+  border-radius:30px;
+  border:3px solid black;
+
+}
+.searchBar-container:hover{
+  box-shadow: 1px 1px 8px 1px #dcdcdc;
+}
+.searchBar-container:focus-within{
+  box-shadow: 1px 1px 8px 1px #dcdcdc;
+  outline:none;
+}
+
+.searchbar {
+  height:45px;
+  border:none;
+  flex-grow: 1;
+  font-size:16px;
+  outline: none;
+  margin-right: 30px;
+  margin-left: 10px;
+}
+
+.vertical{
+  border-left: 3px solid black;
+  height: 40px;
+}
+.dropdown{
+  border-radius:30px;
+  height: 45px;
+  width: 50px;
+  border: 0;
+  font-size: 16px;
+}
+.dropdown-content{
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .searchPageContainer {
   margin: auto;
   width: 50%;
   margin-top: 10%;
@@ -11,11 +85,11 @@
 .summonerSearchbar {
   width: 100%;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 50px;
   font-size: 20px;
   padding-left: 15px;
-}
-
+} */
+/*
 .searchForm .dropdown #dropdown-basic {
   background: transparent;
   border-radius: 5px;
@@ -24,9 +98,9 @@
   margin-right: 2px;
   width: max-content;
   padding: 0px 10px;
-}
+} */
 
-.searchForm .dropdown .dropdown-menu {
+/* .searchForm .dropdown .dropdown-menu {
   border: 2px solid grey;
   padding: 20px 10px;
   border-radius: 5px;
@@ -37,4 +111,35 @@
   text-decoration: none;
   color: black;
   padding: 5px 0px;
+} */
+
+/* .dropdown-content-visible {
+  display: block; 
 }
+
+.dropdown-content-invisible {
+  display: none;
+}
+
+.dropdown{
+  border: 2px solid green;
+  width: 50px;
+  padding: 10px;
+  margin: 5px;
+  color: red;
+  border-color: black;
+  display: block;
+}
+
+.dropdown-container{
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-content{
+  border: 2px solid green;
+  padding: 10px;
+  margin: 5px;
+  color: red;
+  border-color: black;
+  display: block;
+}  */
