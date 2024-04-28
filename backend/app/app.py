@@ -4,7 +4,7 @@ import aiohttp
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 # from flask_session import Session
-from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails
+from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails, fetch_spell_data
 
 app = Flask(__name__, template_folder= 'htmlpagetesting')
 

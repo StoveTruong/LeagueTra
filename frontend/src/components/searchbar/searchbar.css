@@ -31,8 +31,10 @@
 }
 
 .vertical{
-  border-left: 3px solid black;
-  height: 40px;
+  border-left: 1px solid black;
+  height: 15px;
+  width: 10px;
+  margin-left:10px ;
 }
 .dropdown{
   border-radius:30px;
@@ -41,10 +43,18 @@
   border: 0;
   font-size: 16px;
 }
+.dropdown::-ms-expand{
+  display: none;
+}
+
+
 .dropdown-content{
   display: block;
 }
 
+.dropdown-container{
+  margin-left: 10px;
+}
 
 
 

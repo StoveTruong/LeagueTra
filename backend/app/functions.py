@@ -109,6 +109,16 @@ def getSummonerDetails(server, puuid):
             return print(f"1) Error with {server} and {puuid}")
 
 
+def fetch_spell_data():
+    response = requests.get("https://ddragon.leagueoflegends.com/cdn/14.8.1/data/en_US/summoner.json")
+    if response.status_code == 200:
+        spells = response.json()['data']
+        
+        spell_name_by_id = {details['key']: spell_name for spell_name, details in spells.items()}
+        return spell_name_by_id
+    return {}
+
+
 async def processMatchDetails(response, puuid):
    
     matchDetails = {
@@ -126,6 +136,8 @@ async def processMatchDetails(response, puuid):
                 "championName": [],
                 "deaths":[],
                 "goldEarned": [],
+                "summoner1Id": [],
+                "summoner2Id": [],
                 "item0": [],
                 "item1": [],
                 "item2": [],
@@ -142,6 +154,7 @@ async def processMatchDetails(response, puuid):
                 "participantId": [],
                 "physicalDamageDealtToChampions": [],
                 "physicalDamageTaken": [],
+                "trueDamageDealtToChampions": [],
                 "puuid": [],
                 "riotIdGameName": [],
                 "riotIdTagline": [],
@@ -174,6 +187,8 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["championName"].append(player["championName"])
         matchDetails["info"]["participants"]["deaths"].append(player["deaths"])
         matchDetails["info"]["participants"]["goldEarned"].append(player["goldEarned"])
+        matchDetails["info"]["participants"]["summoner1Id"].append(player[("summoner1Id")])
+        matchDetails["info"]["participants"]["summoner2Id"].append(player[("summoner2Id")])
         matchDetails["info"]["participants"]["item0"].append(player["item0"])
         matchDetails["info"]["participants"]["item1"].append(player["item1"])
         matchDetails["info"]["participants"]["item2"].append(player["item2"])
@@ -189,6 +204,8 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["magicDamageTaken"].append(player["magicDamageTaken"])
         matchDetails["info"]["participants"]["participantId"].append(player["participantId"])
         matchDetails["info"]["participants"]["physicalDamageDealtToChampions"].append(player["physicalDamageDealtToChampions"])
+        matchDetails["info"]["participants"]["physicalDamageTaken"].append(player["physicalDamageTaken"])
+        matchDetails["info"]["participants"]["trueDamageDealtToChampions"].append(player["trueDamageDealtToChampions"])
         matchDetails["info"]["participants"]["puuid"].append(player["puuid"])
         matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
         matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
