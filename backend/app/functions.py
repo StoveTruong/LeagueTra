@@ -22,6 +22,8 @@ base_server = {
 }
 
 
+
+
 def get_server(server):
     if server in base_server:
         return base_server[server]
@@ -71,8 +73,7 @@ def getMatchList(server, puuid):
     if response.status_code == 200:
         return response.json()
     else:
-        data = response.json()
-        if 'status' in data:
+        if 'status' in response.json():
             return print(f"1) Error with {server} and {puuid}")
 
 async def getMatchDetails(session, server, matchid, puuid):
@@ -89,8 +90,7 @@ async def getMatchDetails(session, server, matchid, puuid):
             matchData = await processMatchDetails(data, puuid)
             return matchData
         else:
-            data = response.json()
-            if 'status' in await data:
+            if 'status' in await response.json():
                 return print(f"1) Error with {server} and {matchid}")
 
 def getSummonerDetails(server, puuid):
@@ -104,8 +104,7 @@ def getSummonerDetails(server, puuid):
     if response.status_code == 200:
         return response.json()
     else:
-        data = response.json()
-        if 'status' in data:
+        if 'status' in response.json():
             return print(f"1) Error with {server} and {puuid}")
 
 
@@ -123,12 +122,12 @@ async def processMatchDetails(response, puuid):
    
     matchDetails = {
         "info": {
-            "gameCreation": [],
-            "gameDuration": [],
-            "gameEndTimestamp": [],
-            "gameId": [],
-            "gameStartTimestamp": [],
-            "gameVersion": [],
+            "gameCreation": 0,
+            "gameDuration": None,
+            "gameEndTimestamp": None,
+            "gameId": None,
+            "gameStartTimestamp": None,
+            "gameVersion": None,
             "participants": {
                 "assists": [],
                 "champLevel": [],
@@ -159,26 +158,26 @@ async def processMatchDetails(response, puuid):
                 "riotIdGameName": [],
                 "riotIdTagline": [],
                 },
-            "queueId": [], #rank, norms, aram
+            "queueId": None, #rank, norms, aram
             "teams":{
                 "teamId": [],
-                "win": [],
+                "win": None,
             }
         },
-        "myPlayerIndex": [],
+        "myPlayerIndex": 0,
         "metadata": {
-            "matchId": [],
+            "matchId": "",
             "participants": [],
         }
 
     }
     # matchDetails["info"]
-    matchDetails["info"]["gameCreation"].append(response["info"]["gameCreation"])
-    matchDetails["info"]["gameDuration"].append(response["info"]["gameDuration"])
-    matchDetails["info"]["gameEndTimestamp"].append(response["info"]["gameEndTimestamp"])
-    matchDetails["info"]["gameId"].append(response["info"]["gameId"])
-    matchDetails["info"]["gameStartTimestamp"].append(response["info"]["gameStartTimestamp"])
-    matchDetails["info"]["gameVersion"].append(response["info"]["gameVersion"])
+    matchDetails["info"]["gameCreation"] =(response["info"]["gameCreation"])
+    matchDetails["info"]["gameDuration"] = (response["info"]["gameDuration"])
+    matchDetails["info"]["gameEndTimestamp"] = (response["info"]["gameEndTimestamp"])
+    matchDetails["info"]["gameId"] = (response["info"]["gameId"])
+    matchDetails["info"]["gameStartTimestamp"] = (response["info"]["gameStartTimestamp"])
+    matchDetails["info"]["gameVersion"] = (response["info"]["gameVersion"])
 
     for player in response["info"]["participants"]:
         matchDetails["info"]["participants"]["assists"].append(player["assists"])
@@ -210,21 +209,21 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
         matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
     
-    matchDetails["info"]["queueId"].append(response["info"]["queueId"])
+    matchDetails["info"]["queueId"] = (response["info"]["queueId"])
 
     for player in response["info"]["teams"]:
         matchDetails["info"]["teams"]["teamId"].append(player["teamId"])
-        matchDetails["info"]["teams"]["win"].append(player["win"])
+        matchDetails["info"]["teams"]["win"] = (player["win"])
 
     # matchDetails["metadata"]
-    matchDetails["metadata"]["matchId"].append(response["metadata"]["matchId"])
+    matchDetails["metadata"]["matchId"] = (response["metadata"]["matchId"])
     for participant in response["metadata"]["participants"]:
         matchDetails["metadata"]["participants"].append(participant)
 
     #matchDetails["myPlayerIndex"]
     for PlayerIndex, puuidoflist in enumerate(matchDetails["metadata"]["participants"]):
         if puuidoflist == puuid:
-            matchDetails["myPlayerIndex"].append(PlayerIndex)
+            matchDetails["myPlayerIndex"] = (PlayerIndex)
             break
         
 

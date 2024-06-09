@@ -4,8 +4,7 @@ import aiohttp
 from config import API_KEY
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 # from flask_session import Session
-from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails, fetch_spell_data
-
+from functions import getPuuid, getMatchList, getMatchDetails, getSummonerDetails
 app = Flask(__name__, template_folder= 'htmlpagetesting')
 
 # app.config["SESSION_PERMANENT"] = False
@@ -25,7 +24,6 @@ async def index(gameName, tagLine, server):
     
     #Does the async call concurrently
     async with aiohttp.ClientSession() as session:
-        
         tasks = [getMatchDetails(session, server, match_id, profile_info["puuid"]) for match_id in match_ids]
         results = await asyncio.gather(*tasks)
         
