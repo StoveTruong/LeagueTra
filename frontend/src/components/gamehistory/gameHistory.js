@@ -84,56 +84,64 @@ export default function MatchCard({ searchResult }) {
       // Ask Clerk about html elements and use the right ones 
       <div key={match.metadata.matchId} className="match-card">
         {/* Remove match ID or leave for dev mode */}
-      <h3>Match ID: {match.metadata.matchId}</h3>
-        {/* Dates */}
-        <p>Game Creation Time: {timeSince(match.info.gameCreation)}</p>
-        <p>Game Duration: {gameDuration(match.info.gameDuration)}</p>
-        {/* Remove Gamemmode and display mode */}
-        <p>Gamemode :{correctedQueueID(match.info.queueId)}</p>
-        {/* Win: True/False. (Say victory/defeat in green/red respective)*/}
-        <p>Win: {match.info.teams.win ? 'Yes' : 'No'}</p>
-        {/* Average match MMR */}
+        <div className="match-metadata">
+          <h2>Match ID: {match.metadata.matchId}</h2>
+            {/* Dates */}
+            <p>Game Creation Time: {timeSince(match.info.gameCreation)}</p>
+            <p>Game Duration: {gameDuration(match.info.gameDuration)}</p>
+            {/* Remove Gamemmode and display mode */}
+            <p>Gamemode :{correctedQueueID(match.info.queueId)}</p>
+            {/* Win: True/False. (Say victory/defeat in green/red respective)*/}
+            <p>Win: {match.info.teams.win ? 'Yes' : 'No'}</p>
+        </div>
+          {/* Average match MMR */}
 
-        {/* This will be the main player card. 
-        
-        Expecting: 
-        Stats
-        KD + Kill participation
-        CS
-        Gold
-        Sums
-        Level
-        Champ picture
-        Items
-        Runes (Keystone + sub)
-        
-        */}
-        
-        <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/${participants.championName[myPlayer]}.png`}/>
-        <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner1Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
-        <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner2Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
-        
-        
-        <p>{participants.kills[myPlayer]}/{participants.deaths[myPlayer]}/{participants.assists[myPlayer]}</p>
-        <p>{participants.deaths[myPlayer] === 0 ? (participants.kills[myPlayer] + participants.assists[myPlayer]) : ((participants.kills[myPlayer] + participants.assists[myPlayer]) / participants.deaths[myPlayer]).toFixed(2)}</p>
-        <p>Total damage: {participants.physicalDamageDealtToChampions[myPlayer] + participants.magicDamageDealtToChampions[myPlayer] + participants.trueDamageDealtToChampions[myPlayer]}</p>
-
-        {/* This will be the other players */}
-        <br></br>
-        <p>Other players</p>
-        {participants.championName.map((ChampionName, index) => (
-          <div key={index}>
-            <p>{participants.riotIdGameName[index]}</p>
-            <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/${ChampionName}.png`}/>
-            
+          {/* This will be the main player card. 
+          
+          Expecting: 
+          Stats
+          KD + Kill participation
+          CS
+          Gold
+          Sums
+          Level
+          Champ picture
+          Items
+          Runes (Keystone + sub)
+          
+          */}
+          <div className="summoner-picture">
+            <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/${participants.championName[myPlayer]}.png`}/>
+            <div className="summer-icons">
+              <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner1Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
+              <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner2Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
+            </div>
           </div>
-        ))}
+
+          <div className="game-stats">
+            <p>{participants.kills[myPlayer]}/{participants.deaths[myPlayer]}/{participants.assists[myPlayer]}</p>
+            <p>{participants.deaths[myPlayer] === 0 ? (participants.kills[myPlayer] + participants.assists[myPlayer]) : ((participants.kills[myPlayer] + participants.assists[myPlayer]) / participants.deaths[myPlayer]).toFixed(2)}</p>
+            <p>Total damage: {participants.physicalDamageDealtToChampions[myPlayer] + participants.magicDamageDealtToChampions[myPlayer] + participants.trueDamageDealtToChampions[myPlayer]}</p>
+          </div>
+          
+          {/* This will be the other players */}
+          <br></br>
+          <div className="participants">
+            {participants.championName.map((ChampionName, index) => (
+              <div key={index} className="teamID">
+                <p>{participants.riotIdGameName[index]}</p>
+                <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/${ChampionName}.png`}/>
+                
+              </div>
+            ))}
+          </div>
+         
       </div>
     );
   };
-  if (!Array.isArray(searchResult)) {
-    return <div>No match data available.</div>;
-  }
+  // if (!Array.isArray(searchResult)) {
+  //   return <div>No match data available.</div>;
+  // }
 
   return(
     <div>
