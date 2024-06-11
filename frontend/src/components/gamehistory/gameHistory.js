@@ -22,20 +22,27 @@ export default function MatchCard({ searchResult }) {
   }, []);
 
 
-  // useEffect(() => {
-  //   const fetchQueueID = async () => {
-  //     const response = await fetch('https://static.developer.riotgames.com/docs/lol/queues.json');
-  //     const data = await response.json();
+  const queueIdMap = {
+    420: 'Ranked Solo/Duo',
+    440: 'Ranked Flex',
+    430: 'Normal Blind Pick',
+    400: 'Normal Draft Pick',
+    450: 'ARAM',
+    850: 'Co-op vs AI',
+    840: 'Co-op vs AI',
+    830: 'Co-op vs AI',
+    900: 'URF',
+    1300: 'Nexus Blitz',
+    700: 'Clash',
+    1020: 'One for All',
+    1400: 'Ultimate Spellbook',
+    1700: 'Arena'
+  };
 
-  //     const gameMode = {};
-  //     data.forEach(item => {
-  //       gameMode[item.queueId] = item.map;
-  //     });
-  //     setqueueIDMapping(gameMode);
-  //   };
-  //   fetchQueueID();
-  // }, []);
+  const correctedQueueID = (queueId) => {
+    return queueIdMap[queueId] || 'Other';
 
+  }
 
 
 
@@ -43,10 +50,10 @@ export default function MatchCard({ searchResult }) {
     const millisecondsPerMinute = 60000;
     const millisecondsPerHour = 3600000;
     const millisecondsPerDay = 86400000;
-
+  
     const now = Date.now();
     const elapsed = now - gameCreation;
-
+  
     if (elapsed < millisecondsPerDay) {
       if (elapsed < millisecondsPerHour) {
         const minutes = Math.round(elapsed / millisecondsPerMinute);
@@ -74,19 +81,37 @@ export default function MatchCard({ searchResult }) {
     console.log('Participants:', participants);
 
     return (
+      // Ask Clerk about html elements and use the right ones 
       <div key={match.metadata.matchId} className="match-card">
+        {/* Remove match ID or leave for dev mode */}
       <h3>Match ID: {match.metadata.matchId}</h3>
-        <p>Game Creation Time: {timeSince(match.info.gameCreation[0])}</p>
+        {/* Dates */}
+        <p>Game Creation Time: {timeSince(match.info.gameCreation)}</p>
         <p>Game Duration: {gameDuration(match.info.gameDuration)}</p>
-        <p>Game Mode: {(match.info.gameMode)} </p>
-        <p>Alternative GameMode: {(match.info.queueID)}</p>
+        {/* Remove Gamemmode and display mode */}
+        <p>Gamemode :{correctedQueueID(match.info.queueId)}</p>
+        {/* Win: True/False. (Say victory/defeat in green/red respective)*/}
+        <p>Win: {match.info.teams.win ? 'Yes' : 'No'}</p>
+        {/* Average match MMR */}
 
-        {/* This will be the main player card. */}
-
+        {/* This will be the main player card. 
+        
+        Expecting: 
+        Stats
+        KD + Kill participation
+        CS
+        Gold
+        Sums
+        Level
+        Champ picture
+        Items
+        Runes (Keystone + sub)
+        
+        */}
+        
         <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/champion/${participants.championName[myPlayer]}.png`}/>
         <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner1Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
         <img src={`https://ddragon.leagueoflegends.com/cdn/14.7.1/img/spell/${summonerSpellMapping[participants.summoner2Id[myPlayer]]}.png`} alt={summonerSpellMapping[participants.summoner1Id]} />
-        
         
         
         <p>{participants.kills[myPlayer]}/{participants.deaths[myPlayer]}/{participants.assists[myPlayer]}</p>
@@ -94,6 +119,8 @@ export default function MatchCard({ searchResult }) {
         <p>Total damage: {participants.physicalDamageDealtToChampions[myPlayer] + participants.magicDamageDealtToChampions[myPlayer] + participants.trueDamageDealtToChampions[myPlayer]}</p>
 
         {/* This will be the other players */}
+        <br></br>
+        <p>Other players</p>
         {participants.championName.map((ChampionName, index) => (
           <div key={index}>
             <p>{participants.riotIdGameName[index]}</p>
