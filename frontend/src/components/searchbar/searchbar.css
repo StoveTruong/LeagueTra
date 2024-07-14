@@ -7,6 +7,8 @@
   align-items: center;
   justify-content: space-between;
   margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
   width: 500px;
   border-radius:30px;
   border:3px solid black;
@@ -28,6 +30,7 @@
   outline: none;
   margin-right: 30px;
   margin-left: 10px;
+
 }
 
 .vertical{

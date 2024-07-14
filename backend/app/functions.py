@@ -157,11 +157,12 @@ async def processMatchDetails(response, puuid):
                 "puuid": [],
                 "riotIdGameName": [],
                 "riotIdTagline": [],
+                "teamId": []
                 },
             "queueId": None, #rank, norms, aram
             "teams":{
                 "teamId": [],
-                "win": None,
+                "win": [],
             }
         },
         "myPlayerIndex": 0,
@@ -208,12 +209,14 @@ async def processMatchDetails(response, puuid):
         matchDetails["info"]["participants"]["puuid"].append(player["puuid"])
         matchDetails["info"]["participants"]["riotIdGameName"].append(player["riotIdGameName"])
         matchDetails["info"]["participants"]["riotIdTagline"].append(player["riotIdTagline"])
+        matchDetails["info"]["participants"]["teamId"].append(player["teamId"])
     
     matchDetails["info"]["queueId"] = (response["info"]["queueId"])
 
-    for player in response["info"]["teams"]:
-        matchDetails["info"]["teams"]["teamId"].append(player["teamId"])
-        matchDetails["info"]["teams"]["win"] = (player["win"])
+    for team in response["info"]["teams"]:
+        matchDetails["info"]["teams"]["teamId"].append(team["teamId"])
+        matchDetails["info"]["teams"]["win"].append(team["win"])  # Append win status to match the teamId
+
 
     # matchDetails["metadata"]
     matchDetails["metadata"]["matchId"] = (response["metadata"]["matchId"])
